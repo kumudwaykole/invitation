@@ -26,7 +26,7 @@ function App() {
           <SacredCeremoniesSection />
           <VenueSection />
 
-          {/* <TimelineSection /> */}
+          <TimelineSection />
           <WelcomeSection />
         </div>
       )}

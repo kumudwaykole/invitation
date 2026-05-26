@@ -261,12 +261,12 @@ function GoldDivider({ inView }) {
 
 /* ── Google Calendar Add Button ── */
 function AddToCalendarButton() {
-    // Google Calendar link for May 18, 2026
+    // Google Calendar link for June 4, 2026
     const gcalUrl =
         'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-        '&text=PreWedding+Celebration❤️' +
-        '&dates=20260518/20260519' +
-        '&details=You+are+cordially+invited+to+our+prewedding+celebration.' +
+        '&text=Wedding+Celebration❤️' +
+        '&dates=20260604/20260604' +
+        '&details=You+are+cordially+invited+to+our+wedding+celebration.' +
         '&location=Jalgaon%2C+Maharashtra';
 
     return (
@@ -315,7 +315,7 @@ function AddToCalendarButton() {
                         On Your Calendar
                     </p>
                     <p className="save-greatvibes  text-lg mt-0.5" style={{ color: '#3d2b1f' }}>
-                        May 18, 2026
+                        June 4, 2026
                     </p>
                 </span>
             </motion.a>
@@ -401,8 +401,8 @@ export default function SaveTheDateSection() {
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.6, delay: 0.45 }}
                     >
-                        <ScratchCard label="Month" value="May" delay={0.5} onRevealed={handleRevealed} />
-                        <ScratchCard label="Date" value="18" delay={0.65} onRevealed={handleRevealed} />
+                        <ScratchCard label="Month" value="June" delay={0.5} onRevealed={handleRevealed} />
+                        <ScratchCard label="Date" value="4" delay={0.65} onRevealed={handleRevealed} />
                         <ScratchCard label="Year" value="2026" delay={0.8} onRevealed={handleRevealed} />
                     </motion.div>
 

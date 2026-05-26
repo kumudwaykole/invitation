@@ -96,7 +96,7 @@ export default function HeroSection() {
                         className="font-serif italic text-[24px] text-brown-light leading-9 mb-5 px-2"
                     >
                         "We cordially invite you to join us
-                        for Pre-Wedding Reception of "
+                        for Wedding of "
                     </motion.blockquote>
 
                     {/* Gold rule */}
