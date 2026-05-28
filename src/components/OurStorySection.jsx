@@ -93,7 +93,7 @@ function Polaroid({ card, index }) {
                 transition: { duration: 0.3, ease: 'easeOut' },
             }}
             className="relative mx-auto cursor-default"
-            style={{ width: 230, zIndex: 10 + index }}
+            style={{ width: 250, zIndex: 10 + index }}
         >
             {/* Tape */}
             {card.tape && <Tape angle={card.tapeAngle} />}
@@ -110,7 +110,7 @@ function Polaroid({ card, index }) {
                 {/* Photo area */}
                 <div
                     className="w-full rounded-sm overflow-hidden relative"
-                    style={{ height: 200 }}
+                    style={{ height: 220 }}
                 >
                     <img
                         src={card.src}

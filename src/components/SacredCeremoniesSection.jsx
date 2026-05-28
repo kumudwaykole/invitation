@@ -4,8 +4,8 @@ import { useInView } from 'react-intersection-observer';
 import { RosePetal } from './VenueSection';
 
 // ─── UPDATE THESE PATHS to your public folder files ──────────────────────────
-const RECEPTION_VIDEO = '/Video.mp4';        // ← your video
-const RECEPTION_POSTER = '/sangeet.png'; // ← fallback image
+const RECEPTION_VIDEO = '/CarnivalXHaldi1.mp4';        // ← your video
+const RECEPTION_POSTER = '/CarnivalXHaldi.webp'; // ← fallback image
 // ─────────────────────────────────────────────────────────────────────────────
 
 const fontStyle = `
@@ -177,7 +177,7 @@ export default function SacredCeremoniesSection() {
                     <CeremonyVideo
                         src={RECEPTION_VIDEO}
                         poster={RECEPTION_POSTER}
-                        label="Save the Date · 4 June 2026"
+                        label="Save the Date · 3 July 2026"
                     />
 
                 </div>
