@@ -3,9 +3,12 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { RosePetal } from './VenueSection';
 
-// ─── UPDATE THESE PATHS to your public folder files ──────────────────────────
-const RECEPTION_VIDEO = '/CarnivalXHaldi1.mp4';        // ← your video
-const RECEPTION_POSTER = '/CarnivalXHaldi.webp'; // ← fallback image
+// ─── ADD YOUR VIDEOS HERE ─────────────────────────────────────────────────────
+const VIDEOS = [
+    { src: '/CarnivalXHaldi1.mp4', poster: '/CarnivalXHaldi.webp', label: 'Carnival X Haldi · 3 July 2026' },
+    { src: '/Mayravideo.mp4', poster: '/mayraimage.webp', label: 'Mayra · 3 July 2026' },
+    //   { src: '/CarnivalXHaldi3.mp4', poster: '/CarnivalXHaldi3.webp', label: 'Reception · 5 July 2026' },
+];
 // ─────────────────────────────────────────────────────────────────────────────
 
 const fontStyle = `
@@ -28,17 +31,24 @@ function GoldDivider() {
 function CeremonyVideo({ src, poster, label }) {
     const videoRef = useRef(null);
     const [videoError, setVideoError] = useState(false);
+    const [hasEntered, setHasEntered] = useState(false); // 🔑 lazy-load gate
+
     const [ref, inView] = useInView({ threshold: 0.45, triggerOnce: false });
+
+    // Only start loading the video once it's near the viewport
+    useEffect(() => {
+        if (inView && !hasEntered) setHasEntered(true);
+    }, [inView]);
 
     useEffect(() => {
         const v = videoRef.current;
-        if (!v || videoError) return;
+        if (!v || videoError || !hasEntered) return;
         if (inView) {
             v.play().catch(() => setVideoError(true));
         } else {
             v.pause();
         }
-    }, [inView, videoError]);
+    }, [inView, videoError, hasEntered]);
 
     return (
         <motion.div
@@ -49,12 +59,19 @@ function CeremonyVideo({ src, poster, label }) {
             className="relative rounded-2xl overflow-hidden w-full"
             style={{
                 boxShadow: '0 24px 64px rgba(0,0,0,0.24), 0 0 0 1px rgba(201,168,76,0.22)',
-                // aspectRatio: '8/16',
-                // maxHeight: 520,
                 background: '#0d0d0d',
+                minHeight: 200, // prevents layout shift before video loads
             }}
         >
-            {!videoError ? (
+            {/* 🔑 Poster shown until the video enters viewport for the first time */}
+            {!hasEntered ? (
+                <img
+                    src={poster}
+                    alt={label}
+                    className="w-full h-full object-contain"
+                    style={{ display: 'block' }}
+                />
+            ) : !videoError ? (
                 <video
                     ref={videoRef}
                     src={src}
@@ -62,7 +79,7 @@ function CeremonyVideo({ src, poster, label }) {
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="none"     // 🔑 browser won't fetch until we tell it to
                     onError={() => setVideoError(true)}
                     className="w-full h-full object-contain"
                     style={{ display: 'block' }}
@@ -79,9 +96,11 @@ function CeremonyVideo({ src, poster, label }) {
                     }}
                 />
             )}
+
             {Array.from({ length: 10 }).map((_, i) => (
                 <RosePetal key={i} left={6 + (i * 9) % 88} />
             ))}
+
             {/* Bottom gradient */}
             <div
                 className="absolute inset-0 pointer-events-none"
@@ -90,11 +109,11 @@ function CeremonyVideo({ src, poster, label }) {
 
             {/* Label chip */}
             <div
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 pb-1  rounded-full whitespace-nowrap"
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 pb-1 rounded-full whitespace-nowrap"
                 style={{
                     background: 'rgba(0,0,0,0.42)',
                     backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(201,168,76,0.35)',
+                    // border: '1px solid rgba(201,168,76,0.35)',
                 }}
             >
                 <span className="sc-cinzel text-[9px] tracking-[3px] uppercase" style={{ color: '#e8c96a' }}>
@@ -103,7 +122,7 @@ function CeremonyVideo({ src, poster, label }) {
             </div>
 
             {/* Live pulse dot */}
-            {inView && !videoError && (
+            {inView && !videoError && hasEntered && (
                 <motion.div
                     className="absolute top-3 right-3 w-2 h-2 rounded-full"
                     style={{ background: '#e8c96a' }}
@@ -168,17 +187,19 @@ export default function SacredCeremoniesSection() {
                             You are invited
                         </h2>
                         <GoldDivider />
-                        {/* <p className="sc-cormorant italic text-2xl" style={{ color: '#7a5c42' }}>
-                            Music, memories & promises
-                        </p> */}
                     </motion.div>
 
-                    {/* Video */}
-                    <CeremonyVideo
-                        src={RECEPTION_VIDEO}
-                        poster={RECEPTION_POSTER}
-                        label="Save the Date · 3 July 2026"
-                    />
+                    {/* 🔑 Videos rendered from array with gap between them */}
+                    <div className="flex flex-col gap-8">
+                        {VIDEOS.map((video, i) => (
+                            <CeremonyVideo
+                                key={i}
+                                src={video.src}
+                                poster={video.poster}
+                                label={video.label}
+                            />
+                        ))}
+                    </div>
 
                 </div>
             </section>

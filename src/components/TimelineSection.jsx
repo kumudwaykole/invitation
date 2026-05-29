@@ -13,22 +13,35 @@ const itemVariants = {
     },
 };
 
-
 const events = [
-    // 3rd July
     { time: "11:30 AM Onwards", title: "Haldi X Carnival", side: "right", day: "3rd July" },
     { time: "2:00 – 5:00 PM", title: "Mahera", side: "left" },
     { time: "7:00 PM Onwards", title: "Sangeet", side: "right" },
-
-    // 4th July
     { time: "7:30 – 8:30 AM", title: "Samaik", side: "left", day: "4th July" },
     { time: "11:00 AM Onwards", title: "Samela & Varmala", side: "right" },
     { time: "1:00 PM Onwards", title: "Sajan Goth", side: "left" },
     { time: "6:30 PM", title: "Musical Phere", side: "right" },
 ];
+
 export default function TimelineSection() {
+    const sectionRef = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start 60%", "start -10%"],
+    });
+
+    const leftCloudX = useTransform(scrollYProgress, [0, 1], ["0%", "-115%"]);
+    const rightCloudX = useTransform(scrollYProgress, [0, 1], ["0%", "115%"]);
+    const cloudOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0.85]);
+    const timelineOpacity = useTransform(scrollYProgress, [0.25, 1], [0, 1]);
+    const timelineY = useTransform(scrollYProgress, [0.25, 1], [70, 0]);
+
     return (
-        <section className="relative overflow-hidden bg-[#fcf7ef] py-28 md:py-36">
+        <section
+            ref={sectionRef}
+            className="relative overflow-hidden bg-[#fcf7ef] py-28 md:py-36"
+        >
             {/* Background Image */}
             <div
                 className="absolute inset-0 bg-cover bg-center md:bg-[length:135%_auto]"
@@ -37,33 +50,25 @@ export default function TimelineSection() {
                 }}
             />
 
-            {/* Clouds */}
+            {/* Left Cloud */}
             <motion.img
-                src="/CLOUDS.webp"
+                src="/cloudsimage.webp"
                 alt="Left Cloud"
-                initial={{ x: 0, opacity: 1 }}
-                whileInView={{ x: "-115%", opacity: 0.95 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 1.4, ease: "easeInOut" }}
-                className="absolute left-[-35%] top-6 z-30 w-[120vw] max-w-[720px] md:left-[-5%] md:top-8 md:w-[55vw]"
+                style={{ x: leftCloudX, opacity: cloudOpacity }}
+                className="pointer-events-none absolute left-[-35%] top-6 z-30 w-[120vw] max-w-[720px] md:left-[-5%] md:top-8 md:w-[55vw]"
             />
 
+            {/* Right Cloud */}
             <motion.img
-                src="/CLOUDS.webp"
+                src="/cloudsimage.webp"
                 alt="Right Cloud"
-                initial={{ x: 0, opacity: 1 }}
-                whileInView={{ x: "115%", opacity: 0.95 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 1.4, ease: "easeInOut" }}
-                className="absolute right-[-35%] top-10 z-30 w-[120vw] max-w-[720px] md:right-[-5%] md:top-8 md:w-[55vw]"
+                style={{ x: rightCloudX, opacity: cloudOpacity }}
+                className="pointer-events-none absolute right-[-35%] top-10 z-30 w-[120vw] max-w-[720px] md:right-[-5%] md:top-8 md:w-[55vw]"
             />
 
             {/* Timeline */}
             <motion.div
-                initial={{ opacity: 0, y: 80 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.18 }}
-                transition={{ duration: 0.9, delay: 0.35, ease: "easeOut" }}
+                style={{ opacity: timelineOpacity, y: timelineY }}
                 className="relative z-20 mx-auto w-full max-w-[520px] px-5"
             >
                 <h2 className="font-greatvibes mb-14 text-center text-6xl leading-none text-[#2e2e2e] md:text-7xl">
@@ -102,7 +107,7 @@ export default function TimelineSection() {
                                 {event.side === "left" ? (
                                     <>
                                         <div className="pr-9 text-right">
-                                            <p className="text-2xl font-medium leading-none text-[#2f2f2f] md:text-[28px] font-playfair">
+                                            <p className="font-playfair text-2xl font-medium leading-none text-[#2f2f2f] md:text-[28px]">
                                                 {event.time}
                                             </p>
                                             <p className="mt-2 text-xl font-normal leading-[20px] text-[#4f4f4f] md:text-[18px] md:leading-[22px]">
@@ -115,7 +120,7 @@ export default function TimelineSection() {
                                     <>
                                         <div />
                                         <div className="pl-9 text-left">
-                                            <p className="text-2xl font-medium leading-none text-[#2f2f2f] md:text-[28px] font-playfair">
+                                            <p className="font-playfair text-2xl font-medium leading-none text-[#2f2f2f] md:text-[28px]">
                                                 {event.time}
                                             </p>
                                             <p className="mt-2 text-xl font-normal leading-[20px] text-[#4f4f4f] md:text-[18px] md:leading-[22px]">

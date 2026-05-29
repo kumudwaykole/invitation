@@ -34,9 +34,9 @@ export default function VenueSection() {
             style={{ background: 'linear-gradient(180deg,#fdf8f0 0%,#fff5f7 55%,#fdf8f0 100%)' }}
         >
             {/* Petals */}
-            {Array.from({ length: 14 }).map((_, i) => (
+            {/* {Array.from({ length: 14 }).map((_, i) => (
                 <RosePetal key={i} left={4 + (i * 6.5) % 92} />
-            ))}
+            ))} */}
 
             <div className="max-w-105 mx-auto relative z-3">
                 {/* Header */}
@@ -100,9 +100,12 @@ export default function VenueSection() {
                         <div className="flex items-start gap-3 mb-5">
                             <span className="text-xl mt-0.5">📍</span>
                             <div>
-                                <p className="font-display text-[16px] font-semibold text-brown mb-[3px]">Aditya Lawn</p>
+                                <p className="font-display text-[16px] font-semibold text-brown mb-[3px]">
+                                    Jabalpur
+                                </p>
+
                                 <p className="font-body text-[12px] text-brown-muted leading-[1.5]">
-                                    Jalgaon, Maharashtra 425001
+                                    Jabalpur, Madhya Pradesh
                                 </p>
                             </div>
                         </div>
@@ -116,19 +119,19 @@ export default function VenueSection() {
                             style={{ border: '1px solid rgba(201,168,76,0.2)' }}
                         >
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.112524024253!2d75.58420007423805!3d20.98812608917497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd90ee54b4c038f%3A0xba3c18b5657d66a1!2sAditya%20Farm%20Lawn!5e0!3m2!1sen!2sin!4v1776857477728!5m2!1sen!2sin"
+                                src="https://www.google.com/maps?q=Jabalpur,+Madhya+Pradesh&output=embed"
                                 width="100%"
                                 height="195"
                                 className="block border-0"
                                 allowFullScreen=""
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                title="Aditya Lawn, Jalgaon"
+                                title="Jabalpur, Madhya Pradesh"
                             />
                         </motion.div>
 
                         <motion.a
-                            href="https://www.google.com/maps/place/Aditya+Farm+Lawn/@20.9881261,75.5842001,17z/data=!3m1!4b1!4m6!3m5!1s0x3bd90ee54b4c038f:0xba3c18b5657d66a1!8m2!3d20.9881211!4d75.586775!16s%2Fg%2F11g69y227v?entry=ttu&g_ep=EgoyMDI2MDQxOS4wIKXMDSoASAFQAw%3D%3D"
+                            href="https://www.google.com/maps/place/Jabalpur,+Madhya+Pradesh/@23.1768912,79.8830625,12.25z/data=!4m6!3m5!1s0x3981ae1a0fb6a97d:0x44020616bc43e3b9!8m2!3d23.1685786!4d79.9338798!16zL20vMDJkcm5r?entry=ttu&g_ep=EgoyMDI2MDUyNi4wIKXMDSoASAFQAw%3D%3D"
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.025 }}

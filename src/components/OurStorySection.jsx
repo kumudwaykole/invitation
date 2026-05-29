@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 const CARDS = [
     {
         caption: 'How it started…',
-        src: '/engagement.jpg',   // ← replace
+        src: '/pranav-tejaswi.webp',   // ← replace
         rotation: -5,
         tape: true,
         tapeAngle: -12,
@@ -19,7 +19,7 @@ const CARDS = [
     },
     {
         caption: 'Made it Official…',
-        src: 'engagement-3.jpg',   // ← replace
+        src: 'engagement.jpg',   // ← replace
         rotation: -2,
         tape: true,
         tapeAngle: -6,

@@ -22,7 +22,7 @@ const fontStyle = `
 // ─── Replace these with your own image URLs ───────────────────────────────────
 const LEFT_IMAGE_URL = '/left.webp';
 const RIGHT_IMAGE_URL = '/right.webp';
-const BG_IMAGE_URL = 'https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?w=1600&q=80';
+const BG_IMAGE_URL = '/background-flowers.webp';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const doorEase = [0.76, 0, 0.24, 1];
