@@ -2,6 +2,16 @@
 
 @import "tailwindcss";
 
+/* ── Local Premium Font Import ── */
+@font-face {
+  font-family: 'Bickham Script Pro';
+  src: url('/fonts/BickhamScriptPro.woff2') format('woff2'),
+    url('/fonts/BickhamScriptPro.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── CSS Variables ── */
 :root {
   --color-cream: #fdf8f0;
@@ -16,10 +26,18 @@
   --color-navy: #1a2744;
   --color-white: #ffffff;
 
+  --font-bickham: 'Bickham Script Pro', cursive;
   --font-script: 'Great Vibes', cursive;
   --font-serif: 'Cormorant Garamond', serif;
   --font-display: 'Playfair Display', serif;
   --font-body: 'Raleway', sans-serif;
+}
+
+/* ── Global Font Utility Classes ── */
+
+/* Cursive / Script */
+.font-bickham {
+  font-family: 'Bickham Script Pro', cursive;
 }
 
 /* ── Global Font Utility Classes ── */

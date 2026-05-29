@@ -162,8 +162,8 @@ function ScratchCard({ label, value, delay, onRevealed }) {
     const drawing = useRef(false);
     const [cardRef, inView] = useInView({ triggerOnce: true });
 
-    const CARD_W = 108;
-    const CARD_H = 120;
+    const CARD_W = 340;
+    const CARD_H = 80;
     const DPR = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
 
     useEffect(() => {
@@ -230,7 +230,7 @@ function ScratchCard({ label, value, delay, onRevealed }) {
             className="flex flex-col items-center gap-[9px] flex-1"
             style={{ perspective: 400 }}
         >
-            <motion.span className="save-cinzel text-[10px] tracking-[2.5px] uppercase" style={{ color: '#a07830' }}>
+            <motion.span className="save-cinzel text-sm tracking-[2.5px] uppercase" style={{ color: '#a07830' }}>
                 {label}
             </motion.span>
             <motion.div
@@ -360,9 +360,9 @@ function AddToCalendarButton() {
                     <p className="save-cinzel text-xs tracking-[3px] uppercase" style={{ color: '#a07830' }}>
                         On Your Calendar
                     </p>
-                    <p className="save-cormorant italic text-lg mt-0.5" style={{ color: '#3d2b1f' }}>
+                    {/* <p className="save-cormorant italic text-lg mt-0.5" style={{ color: '#3d2b1f' }}>
                         July 4, 2026
-                    </p>
+                    </p> */}
                 </span>
             </motion.a>
         </motion.div>
@@ -372,7 +372,7 @@ function AddToCalendarButton() {
 export default function SaveTheDateSection() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
     const [revealedCount, setRevealedCount] = useState(0);
-    const allRevealed = revealedCount >= 3;
+    const allRevealed = revealedCount >= 1;
     const confettiFired = useRef(false);
 
     const handleRevealed = () => setRevealedCount(n => n + 1);
@@ -441,16 +441,14 @@ export default function SaveTheDateSection() {
 
                     <GoldDivider inView={inView} />
 
-                    {/* Scratch cards */}
+                    {/* Scratch card */}
                     <motion.div
-                        className="flex gap-4 justify-center items-start"
+                        className="flex justify-center items-start"
                         initial={{ opacity: 0, y: 20 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.6, delay: 0.45 }}
                     >
-                        <ScratchCard label="Month" value="July" delay={0.5} onRevealed={handleRevealed} />
-                        <ScratchCard label="Date" value="4" delay={0.65} onRevealed={handleRevealed} />
-                        <ScratchCard label="Year" value="2026" delay={0.8} onRevealed={handleRevealed} />
+                        <ScratchCard label="Reveal The Date" value="4 July 2026" delay={0.5} onRevealed={handleRevealed} />
                     </motion.div>
 
                     {/* Countdown + Calendar — shown after all cards scratched */}

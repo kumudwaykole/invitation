@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 
-const DOOR_DURATION = 1.5;
-const DOOR_DELAY = 0.4;
-const CONTENT_OFFSET = DOOR_DELAY + DOOR_DURATION - 0.3; // content starts while doors finishing
+const DOOR_DURATION = 2.5;
+const DOOR_DELAY = 0.6;
+const CONTENT_OFFSET = DOOR_DELAY + DOOR_DURATION - 0.8; // content starts while doors finishing
 
 const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 28 },
@@ -25,7 +25,7 @@ const RIGHT_IMAGE_URL = '/right.webp';
 const BG_IMAGE_URL = '/background-flowers.webp';
 // ─────────────────────────────────────────────────────────────────────────────
 
-const doorEase = [0.76, 0, 0.24, 1];
+const doorEase = [0.76, 0, 0.74, 2];
 
 export default function HeroSection() {
     return (
@@ -53,10 +53,10 @@ export default function HeroSection() {
                     className="absolute inset-0 z-0"
                     style={{
                         background: `
-                          radial-gradient(circle at top, rgba(255,248,220,0.72) 0%, transparent 40%),
-                          radial-gradient(circle at bottom, rgba(201,168,76,0.18) 0%, transparent 35%),
-                          linear-gradient(180deg,rgba(252,247,239,0.82) 0%,rgba(246,236,220,0.75) 45%,rgba(253,248,240,0.82) 100%)
-                        `,
+      radial-gradient(circle at top, rgba(255,248,220,0.30) 0%, transparent 38%),
+      radial-gradient(circle at bottom, rgba(201,168,76,0.07) 0%, transparent 32%),
+      linear-gradient(180deg,rgba(252,247,239,0.35) 0%,rgba(246,236,220,0.28) 45%,rgba(253,248,240,0.35) 100%)
+    `,
                     }}
                 />
 
@@ -86,21 +86,21 @@ export default function HeroSection() {
                     ))}
 
                     {/* Outer glow orb */}
-                    <motion.div
+                    {/* <motion.div
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 2.5, delay: CONTENT_OFFSET, ease: 'easeOut' }}
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-130 h-130 rounded-full pointer-events-none z-0"
                         style={{ background: 'radial-gradient(circle,rgba(255,253,200,0.95) 0%,rgba(255,248,168,0.65) 35%,rgba(253,248,240,0.18) 70%,transparent 85%)' }}
-                    />
+                    /> */}
                     {/* Inner glow orb */}
-                    <motion.div
+                    {/* <motion.div
                         initial={{ scale: 0.6, opacity: 0 }}
                         animate={{ scale: [0.6, 1.08, 1], opacity: 1 }}
                         transition={{ duration: 3.2, delay: CONTENT_OFFSET, ease: 'easeOut' }}
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-65 h-65 rounded-full blur-[22px] pointer-events-none z-0"
                         style={{ background: 'radial-gradient(circle,rgba(255,255,220,1) 0%,rgba(255,252,180,0.85) 45%,transparent 78%)' }}
-                    />
+                    /> */}
 
                     {/* ── Content ─────────────────────────────────────────────── */}
                     <div className="relative z-10 text-center max-w-90 w-full">
@@ -131,7 +131,7 @@ export default function HeroSection() {
                         {/* Groom */}
                         <motion.h1
                             {...fadeUp(0.6)}
-                            className="name-cinzel text-[52px] text-brown leading-[1.1] mb-1 uppercase"
+                            className="font-greatvibes text-[62px] text-brown leading-[1.1] mb-1 "
                             style={{ filter: 'drop-shadow(0 2px 10px rgba(201,168,76,0.18))' }}
                         >
                             Pranav
@@ -156,7 +156,7 @@ export default function HeroSection() {
                         {/* Bride */}
                         <motion.h1
                             {...fadeUp(0.85)}
-                            className="name-cinzel text-[52px] text-brown leading-[1.1] mb-1 uppercase"
+                            className="font-greatvibes text-[62px] text-brown leading-[1.1] mb-1 "
                             style={{ filter: 'drop-shadow(0 2px 10px rgba(201,168,76,0.18))' }}
                         >
                             Tejaswi
@@ -243,7 +243,7 @@ export default function HeroSection() {
                         }}
                     />
                     {/* golden inner edge glow */}
-                    <div
+                    {/* <div
                         style={{
                             position: 'absolute', top: 0, right: 0, width: 60, height: '100%',
                             background: 'linear-gradient(to left, rgba(201,168,76,0.0), rgba(201,168,76,0.35))',
@@ -251,13 +251,13 @@ export default function HeroSection() {
                         }}
                     />
                     {/* thin gold seam on right edge */}
-                    <div
+                    {/* <div
                         style={{
                             position: 'absolute', top: 0, right: 0, width: 2, height: '100%',
                             background: 'linear-gradient(to bottom, transparent, #c9a84c 20%, #e8c96a 50%, #c9a84c 80%, transparent)',
                             pointerEvents: 'none',
                         }}
-                    />
+                    /> */}
                     {/* warm overlay */}
                     <div
                         style={{
@@ -286,29 +286,29 @@ export default function HeroSection() {
                         }}
                     />
                     {/* golden inner edge glow */}
-                    <div
+                    {/* <div
                         style={{
                             position: 'absolute', top: 0, left: 0, width: 60, height: '100%',
                             background: 'linear-gradient(to right, rgba(201,168,76,0.0), rgba(201,168,76,0.35))',
                             pointerEvents: 'none',
                         }}
-                    />
+                    /> */}
                     {/* thin gold seam on left edge */}
-                    <div
+                    {/* <div
                         style={{
                             position: 'absolute', top: 0, left: 0, width: 2, height: '100%',
                             background: 'linear-gradient(to bottom, transparent, #c9a84c 20%, #e8c96a 50%, #c9a84c 80%, transparent)',
                             pointerEvents: 'none',
                         }}
-                    />
+                    /> */}
                     {/* warm overlay */}
-                    <div
+                    {/* <div
                         style={{
                             position: 'absolute', inset: 0,
                             background: 'rgba(252,244,228,0.22)',
                             pointerEvents: 'none',
                         }}
-                    />
+                    /> */}
                 </motion.div>
 
             </div>

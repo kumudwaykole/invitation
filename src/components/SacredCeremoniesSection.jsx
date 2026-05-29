@@ -6,7 +6,7 @@ import { RosePetal } from './VenueSection';
 // ─── ADD YOUR VIDEOS HERE ─────────────────────────────────────────────────────
 const VIDEOS = [
     { src: '/CarnivalXHaldi1.mp4', poster: '/CarnivalXHaldi.webp', label: 'Carnival X Haldi · 3 July 2026' },
-    { src: '/Mayravideo.mp4', poster: '/mayraimage.webp', label: 'Mayra · 3 July 2026' },
+    // { src: '/Mayravideo.mp4', poster: '/mayraimage.webp', label: 'Mayra · 3 July 2026' },
     //   { src: '/CarnivalXHaldi3.mp4', poster: '/CarnivalXHaldi3.webp', label: 'Reception · 5 July 2026' },
 ];
 // ─────────────────────────────────────────────────────────────────────────────

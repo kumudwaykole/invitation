@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import FloatingLeaves from './components/FloatingLeaves';
+// import FloatingLeaves from './components/FloatingLeaves';
+import FloatingFlowers from './components/FloatingLeaves';
 import EnvelopeReveal from './components/EnvelopeReveal';
 import HeroSection from './components/HeroSection';
 import SaveTheDateSection from './components/SaveTheDateSection';
@@ -15,7 +16,7 @@ function App() {
   const [revealed, setRevealed] = useState(false);
 
   return (
-    <FloatingLeaves>
+    <FloatingFlowers>
       <EnvelopeReveal onReveal={() => setRevealed(true)} />
 
       {revealed && (
@@ -30,7 +31,7 @@ function App() {
           <WelcomeSection />
         </div>
       )}
-    </FloatingLeaves>
+    </FloatingFlowers>
   );
 }
 
