@@ -39,7 +39,7 @@ export default function QuoteSection() {
                         "Your presence and blessings mean the world to us."
                     </p>
 
-                    <cite className="not-italic text-[0.88rem] font-semibold tracking-[0.08em] text-[#6b3318]">
+                    <cite className="not-italic text-sm font-semibold tracking-[0.08em] text-[#6b3318]">
                         With Love & Gratitude
                     </cite>
                 </blockquote>
