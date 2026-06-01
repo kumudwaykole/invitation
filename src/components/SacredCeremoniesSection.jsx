@@ -5,7 +5,7 @@ import { RosePetal } from './VenueSection';
 
 const VIDEOS = [
     { src: '/day1.mp4', poster: '/CarnivalXHaldi.webp', date: '3rd July' },
-    { src: '/day2.mp4', poster: '/mayraimage.webp', date: '4th July' },
+    { src: '/day2.mp4', poster: '/day2-image.webp', date: '4th July' },
 ];
 
 function GoldDivider() {
