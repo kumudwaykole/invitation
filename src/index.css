@@ -123,3 +123,33 @@ html {
   background-color: var(--color-gold);
   border-radius: 2px;
 }
+
+/* ── Video Scrubber ── */
+.video-scrubber {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+}
+
+.video-scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e8c96a;
+  box-shadow: 0 0 5px rgba(201, 168, 76, 0.8);
+  cursor: pointer;
+}
+
+.video-scrubber::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #e8c96a;
+  box-shadow: 0 0 5px rgba(201, 168, 76, 0.8);
+  cursor: pointer;
+}

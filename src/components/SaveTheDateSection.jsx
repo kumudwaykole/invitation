@@ -397,7 +397,7 @@ export default function SaveTheDateSection() {
             <style>{fontStyle}</style>
             <section
                 ref={ref}
-                className="min-h-[80vh] flex flex-col items-center justify-center px-7 py-10 relative overflow-hidden"
+                className="min-h-[80vh] flex flex-col items-center justify-center px-7 py-10 relative overflow-hidden pb-50"
                 style={{ background: 'linear-gradient(180deg,#fdf8f0 0%,#faf3e0 55%,#fdf8f0 100%)' }}
             >
                 <motion.div

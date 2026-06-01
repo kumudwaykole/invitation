@@ -11,6 +11,7 @@ import TimelineSection from './components/TimelineSection';
 import WelcomeSection from './components/WelcomeSection';
 import './index.css';
 import SacredCeremoniesSection from './components/SacredCeremoniesSection';
+import QuoteSection from './components/QuoteSection';
 
 function App() {
   const [revealed, setRevealed] = useState(false);
@@ -22,6 +23,7 @@ function App() {
       {revealed && (
         <div className="mx-auto relative overflow-x-hidden">
           <HeroSection revealed={revealed} />
+          <QuoteSection />
           <SaveTheDateSection />
           <OurStorySection />
           <SacredCeremoniesSection />

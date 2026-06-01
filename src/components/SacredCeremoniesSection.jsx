@@ -1,41 +1,129 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { RosePetal } from './VenueSection';
 
-// ─── ADD YOUR VIDEOS HERE ─────────────────────────────────────────────────────
 const VIDEOS = [
-    { src: '/CarnivalXHaldi1.mp4', poster: '/CarnivalXHaldi.webp', label: 'Carnival X Haldi · 3 July 2026' },
-    // { src: '/Mayravideo.mp4', poster: '/mayraimage.webp', label: 'Mayra · 3 July 2026' },
-    //   { src: '/CarnivalXHaldi3.mp4', poster: '/CarnivalXHaldi3.webp', label: 'Reception · 5 July 2026' },
+    { src: '/day1.mp4', poster: '/CarnivalXHaldi.webp', date: '3rd July' },
+    { src: '/day2.mp4', poster: '/mayraimage.webp', date: '4th July' },
 ];
-// ─────────────────────────────────────────────────────────────────────────────
-
-const fontStyle = `
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
-  .sc-cinzel     { font-family: 'Cinzel', serif; }
-  .sc-cormorant  { font-family: 'Cormorant Garamond', serif; }
-`;
 
 function GoldDivider() {
     return (
-        <div className="flex items-center gap-3 w-full max-w-50 mx-auto my-5">
-            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right,transparent,#c9a84c)' }} />
-            <span style={{ color: '#c9a84c', fontSize: 10 }}>✦</span>
-            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left,transparent,#c9a84c)' }} />
+        <div className="flex items-center gap-3 w-full max-w-[200px] mx-auto my-5">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#c9a84c]" />
+            <span className="text-[10px] text-[#c9a84c]">✦</span>
+            <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#c9a84c]" />
         </div>
     );
 }
 
-/* ── Scroll-triggered video player ── */
-function CeremonyVideo({ src, poster, label }) {
+function DateTitle({ day, date, inView, delay = 0 }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
+            className="text-center mb-5"
+        >
+            {/* <p className="font-cinzel text-[9px] tracking-[4px] uppercase mb-1 text-[#a07830]">
+                {day}
+            </p> */}
+            <p className="font-cinzel leading-none text-2xl text-[#3d2b1f]">
+                {date}
+            </p>
+            {/* <div className="flex items-center gap-2 max-w-[120px] mx-auto mt-2">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#c9a84c]" />
+                <span className="text-[9px] text-[#c9a84c]">✦</span>
+                <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#c9a84c]" />
+            </div> */}
+        </motion.div>
+    );
+}
+
+function SmoothScrubber({ videoRef }) {
+    const trackRef = useRef(null);
+    const fillRef = useRef(null);
+    const thumbRef = useRef(null);
+    const rafRef = useRef(null);
+    const isDragging = useRef(false);
+
+    // RAF loop — updates DOM directly, zero React re-renders → buttery smooth
+    useEffect(() => {
+        const tick = () => {
+            const v = videoRef.current;
+            const fill = fillRef.current;
+            const thumb = thumbRef.current;
+            if (v && fill && thumb && v.duration && !isDragging.current) {
+                const pct = (v.currentTime / v.duration) * 100;
+                fill.style.width = `${pct}%`;
+                thumb.style.left = `${pct}%`;
+            }
+            rafRef.current = requestAnimationFrame(tick);
+        };
+        rafRef.current = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(rafRef.current);
+    }, [videoRef]);
+
+    const scrubTo = useCallback((e) => {
+        const track = trackRef.current;
+        const v = videoRef.current;
+        if (!track || !v || !v.duration) return;
+        const rect = track.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        v.currentTime = pct * v.duration;
+        if (fillRef.current) fillRef.current.style.width = `${pct * 100}%`;
+        if (thumbRef.current) thumbRef.current.style.left = `${pct * 100}%`;
+    }, [videoRef]);
+
+    const onPointerDown = useCallback((e) => {
+        isDragging.current = true;
+        scrubTo(e);
+        const onMove = (ev) => scrubTo(ev);
+        const onUp = () => {
+            isDragging.current = false;
+            window.removeEventListener('pointermove', onMove);
+            window.removeEventListener('pointerup', onUp);
+        };
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+    }, [scrubTo]);
+
+    return (
+        <div
+            ref={trackRef}
+            onPointerDown={onPointerDown}
+            className="relative flex h-[18px] flex-1 cursor-pointer items-center"
+        >
+            {/* Track background */}
+            <div className="absolute inset-x-0 top-1/2 h-[4px] -translate-y-1/2 rounded-full bg-[#3d2b1f]/20 shadow-inner" />
+
+            {/* Fill */}
+            <div
+                ref={fillRef}
+                className="pointer-events-none absolute left-0 top-1/2 h-[4px] -translate-y-1/2 rounded-full bg-gradient-to-r from-[#8a6420] via-[#e8c96a] to-[#c9a84c] shadow-[0_0_10px_rgba(232,201,106,0.35)] will-change-[width]"
+                style={{ width: '0%' }}
+            />
+
+            {/* Thumb */}
+            <div
+                ref={thumbRef}
+                className="pointer-events-none absolute top-1/2 h-[12px] w-[12px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#e8c96a] bg-[#3d2b1f] shadow-[0_0_10px_rgba(232,201,106,0.55)] will-change-[left]"
+                style={{ left: '0%' }}
+            />
+        </div>
+    );
+}
+
+function CeremonyVideo({ src, poster }) {
     const videoRef = useRef(null);
+    const [hasEntered, setHasEntered] = useState(false);
     const [videoError, setVideoError] = useState(false);
-    const [hasEntered, setHasEntered] = useState(false); // 🔑 lazy-load gate
+    const [isPlaying, setIsPlaying] = useState(false);
 
     const [ref, inView] = useInView({ threshold: 0.45, triggerOnce: false });
 
-    // Only start loading the video once it's near the viewport
     useEffect(() => {
         if (inView && !hasEntered) setHasEntered(true);
     }, [inView]);
@@ -44,11 +132,18 @@ function CeremonyVideo({ src, poster, label }) {
         const v = videoRef.current;
         if (!v || videoError || !hasEntered) return;
         if (inView) {
-            v.play().catch(() => setVideoError(true));
+            v.play().then(() => setIsPlaying(true)).catch(() => setVideoError(true));
         } else {
             v.pause();
+            setIsPlaying(false);
         }
     }, [inView, videoError, hasEntered]);
+
+    const togglePlay = useCallback(() => {
+        const v = videoRef.current;
+        if (!v) return;
+        v.paused ? v.play() : v.pause();
+    }, []);
 
     return (
         <motion.div
@@ -56,22 +151,12 @@ function CeremonyVideo({ src, poster, label }) {
             initial={{ opacity: 0, y: 36, scale: 0.96 }}
             animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative rounded-2xl overflow-hidden w-full"
-            style={{
-                boxShadow: '0 24px 64px rgba(0,0,0,0.24), 0 0 0 1px rgba(201,168,76,0.22)',
-                background: '#0d0d0d',
-                minHeight: 200, // prevents layout shift before video loads
-            }}
+            className="relative rounded-2xl overflow-hidden w-full min-h-[200px] bg-[#0d0d0d] shadow-[0_24px_64px_rgba(0,0,0,0.24),0_0_0_1px_rgba(201,168,76,0.22)]"
         >
-            {/* 🔑 Poster shown until the video enters viewport for the first time */}
-            {!hasEntered ? (
-                <img
-                    src={poster}
-                    alt={label}
-                    className="w-full h-full object-contain"
-                    style={{ display: 'block' }}
-                />
-            ) : !videoError ? (
+            {!hasEntered && (
+                <img src={poster} alt="" className="w-full h-full object-contain block" />
+            )}
+            {hasEntered && !videoError && (
                 <video
                     ref={videoRef}
                     src={src}
@@ -79,53 +164,50 @@ function CeremonyVideo({ src, poster, label }) {
                     muted
                     loop
                     playsInline
-                    preload="none"     // 🔑 browser won't fetch until we tell it to
+                    preload="none"
                     onError={() => setVideoError(true)}
-                    className="w-full h-full object-contain"
-                    style={{ display: 'block' }}
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                    className="w-full h-full object-contain block"
                 />
-            ) : (
-                <img
-                    src={poster}
-                    alt={label}
-                    className="w-full h-full object-contain"
-                    onError={e => {
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.parentElement.style.background =
-                            'linear-gradient(135deg,#1a1a2e,#16213e)';
-                    }}
-                />
+            )}
+            {hasEntered && videoError && (
+                <img src={poster} alt="" className="w-full h-full object-contain block" />
             )}
 
             {Array.from({ length: 10 }).map((_, i) => (
                 <RosePetal key={i} left={6 + (i * 9) % 88} />
             ))}
 
-            {/* Bottom gradient */}
-            <div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%)' }}
-            />
+            {/* Bottom gradient overlay */}
+            {/* <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/65 to-transparent" /> */}
 
-            {/* Label chip */}
-            <div
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 pb-1 rounded-full whitespace-nowrap"
-                style={{
-                    background: 'rgba(0,0,0,0.42)',
-                    backdropFilter: 'blur(8px)',
-                    // border: '1px solid rgba(201,168,76,0.35)',
-                }}
-            >
-                <span className="sc-cinzel text-[9px] tracking-[3px] uppercase" style={{ color: '#e8c96a' }}>
-                    {label}
-                </span>
-            </div>
+            {/* Controls */}
+            {hasEntered && !videoError && (
+                <div className="absolute bottom-0 left-0 right-0 flex items-center gap-2.5 px-3 pb-3">
+                    <button
+                        onClick={togglePlay}
+                        className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-[#e8c96a]/70 bg-[#3d2b1f]/75 shadow-[0_0_14px_rgba(232,201,106,0.28)] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-[#2a1b12]"
+                    >
+                        {isPlaying ? (
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                <rect x="1.5" y="1" width="2.5" height="8" rx="0.8" fill="#e8c96a" />
+                                <rect x="6" y="1" width="2.5" height="8" rx="0.8" fill="#e8c96a" />
+                            </svg>
+                        ) : (
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                <path d="M2 1L9 5L2 9V1Z" fill="#e8c96a" />
+                            </svg>
+                        )}
+                    </button>
+                    <SmoothScrubber videoRef={videoRef} />
+                </div>
+            )}
 
-            {/* Live pulse dot */}
-            {inView && !videoError && hasEntered && (
+            {/* Live pulse */}
+            {inView && !videoError && hasEntered && isPlaying && (
                 <motion.div
-                    className="absolute top-3 right-3 w-2 h-2 rounded-full"
-                    style={{ background: '#e8c96a' }}
+                    className="absolute top-3 right-3 w-2 h-2 rounded-full bg-[#e8c96a]"
                     animate={{ opacity: [1, 0.3, 1], scale: [1, 1.5, 1] }}
                     transition={{ duration: 1.6, repeat: Infinity }}
                 />
@@ -134,75 +216,60 @@ function CeremonyVideo({ src, poster, label }) {
     );
 }
 
-/* ── Main export ── */
 export default function SacredCeremoniesSection() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 });
 
     return (
-        <>
-            <style>{fontStyle}</style>
-            <section
-                ref={ref}
-                className="min-h-screen px-6 pt-1 pb-16 relative overflow-hidden"
-                style={{ background: 'linear-gradient(180deg,#fdf8f0 0%,#faf3e0 55%,#fdf8f0 100%)' }}
-            >
-                {/* Ambient sparkles */}
-                {Array.from({ length: 8 }).map((_, i) => (
-                    <motion.span
-                        key={i}
-                        animate={{ opacity: [0.12, 0.55, 0.12], scale: [0.8, 1.2, 0.8] }}
-                        transition={{ duration: 2.5 + i * 0.4, repeat: Infinity, delay: i * 0.35 }}
-                        className="absolute pointer-events-none"
-                        style={{
-                            color: '#c9a84c',
-                            fontSize: 9 + (i % 3) * 3,
-                            top: `${5 + ((i * 12) % 85)}%`,
-                            left: `${3 + ((i * 11.3) % 93)}%`,
-                        }}
-                    >
-                        ✦
-                    </motion.span>
-                ))}
+        <section
+            ref={ref}
+            className="min-h-screen px-6 pt-50 pb-24 relative overflow-hidden -mt-40 bg-gradient-to-b from-[#fdf8f0] via-[#faf3e0] to-[#fdf8f0]"
+        >
+            {Array.from({ length: 8 }).map((_, i) => (
+                <motion.span
+                    key={i}
+                    animate={{ opacity: [0.12, 0.55, 0.12], scale: [0.8, 1.2, 0.8] }}
+                    transition={{ duration: 2.5 + i * 0.4, repeat: Infinity, delay: i * 0.35 }}
+                    className="absolute pointer-events-none text-[#c9a84c]"
+                    style={{
+                        fontSize: 9 + (i % 3) * 3,
+                        top: `${5 + ((i * 12) % 85)}%`,
+                        left: `${3 + ((i * 11.3) % 93)}%`,
+                    }}
+                >
+                    ✦
+                </motion.span>
+            ))}
 
-                <div className="max-w-100 mx-auto relative z-10">
+            <div className="max-w-[400px] mx-auto relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.75 }}
+                    className="text-center mb-8"
+                >
+                    <p className="font-cinzel text-[10px] tracking-[4px] uppercase mb-3 text-[#a07830]">
+                        Moments to Cherish
+                    </p>
+                    <h2 className="font-greatvibes leading-[1.05] mb-1 text-[62px] text-[#3d2b1f] drop-shadow-[0_2px_10px_rgba(201,168,76,0.22)]">
+                        You are invited
+                    </h2>
+                    <GoldDivider />
+                </motion.div>
 
-                    {/* Section header */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.75 }}
-                        className="text-center mb-8"
-                    >
-                        <p className="sc-cinzel text-[10px] tracking-[4px] uppercase mb-3" style={{ color: '#a07830' }}>
-                            Moments to Cherish
-                        </p>
-                        <h2
-                            className="font-greatvibes leading-[1.05] mb-1"
-                            style={{
-                                fontSize: 62,
-                                color: '#3d2b1f',
-                                filter: 'drop-shadow(0 2px 10px rgba(201,168,76,0.22))',
-                            }}
-                        >
-                            You are invited
-                        </h2>
-                        <GoldDivider />
-                    </motion.div>
-
-                    {/* 🔑 Videos rendered from array with gap between them */}
-                    <div className="flex flex-col gap-8">
-                        {VIDEOS.map((video, i) => (
-                            <CeremonyVideo
-                                key={i}
-                                src={video.src}
-                                poster={video.poster}
-                                label={video.label}
+                <div className="flex flex-col gap-8">
+                    {VIDEOS.map((video, i) => (
+                        <div key={i}>
+                            <DateTitle
+                                day={video.day}
+                                date={video.date}
+                                inView={inView}
+                                delay={0.15 + i * 0.1}
                             />
-                        ))}
-                    </div>
-
+                            <CeremonyVideo src={video.src} poster={video.poster} />
+                        </div>
+                    ))}
                 </div>
-            </section>
-        </>
+            </div>
+        </section>
     );
 }

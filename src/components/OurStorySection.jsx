@@ -181,8 +181,8 @@ export default function OurStorySection() {
             <style>{fontStyle}</style>
             <section
                 ref={ref}
-                className="min-h-screen px-7 pt-10 pb-12 relative overflow-hidden"
-                style={{ background: 'linear-gradient(180deg,#f7f3ea 0%,#fdf8f0 100%)' }}
+                className="min-h-screen px-7 pt-22 pb-22 relative overflow-hidden rounded-full -mt-40 z-20 bg-amber-950"
+            // style={{ background: 'linear-gradient(180deg,#f7f3ea 0%,#fdf8f0 100%)' }}
             >
                 {/* Ambient floating sparkles */}
                 {Array.from({ length: 9 }).map((_, i) => (
@@ -213,14 +213,14 @@ export default function OurStorySection() {
                         className="text-center mb-10"
                     >
                         <p
-                            className="story-cinzel text-[10px] tracking-[4px] uppercase mb-3"
-                            style={{ color: '#a07830' }}
+                            className="story-cinzel text-[10px] tracking-[4px] uppercase mb-3 text-amber-200"
+                        // style={{ color: '#a07830' }}
                         >
                             A Journey of Two Hearts
                         </p>
                         <h2
-                            className="font-greatvibes leading-[1.05] mb-2"
-                            style={{ fontSize: 60, color: '#3d2b1f', filter: 'drop-shadow(0 2px 8px rgba(201,168,76,0.18))' }}
+                            className="font-greatvibes leading-[1.05] mb-2 text-amber-50 text-6xl"
+                        // style={{ fontSize: 60, color: '#3d2b1f', filter: 'drop-shadow(0 2px 8px rgba(201,168,76,0.18))' }}
                         >
                             Our Story
                         </h2>
@@ -228,8 +228,8 @@ export default function OurStorySection() {
                             initial={{ opacity: 0 }}
                             animate={inView ? { opacity: 1 } : {}}
                             transition={{ duration: 0.7, delay: 0.22 }}
-                            className="story-cormorant italic text-base leading-[1.7] mt-3"
-                            style={{ color: '#8a6e58' }}
+                            className="story-cormorant italic text-base leading-[1.7] mt-3 text-amber-100"
+                        // style={{ color: '#8a6e58' }}
                         >
                             Two strangers, one moment in time — and suddenly the world felt a little different.
                         </motion.p>
