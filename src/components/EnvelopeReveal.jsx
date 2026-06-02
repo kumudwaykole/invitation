@@ -153,7 +153,7 @@ export default function EnvelopeReveal({ onReveal }) {
                         <div
                             className="absolute inset-0 z-0"
                             style={{
-                                backgroundImage: 'url(/envelope-bg.png)',
+                                backgroundImage: 'url(/envelope-bg.webp)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                             }}

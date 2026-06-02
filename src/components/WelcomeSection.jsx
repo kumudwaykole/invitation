@@ -52,7 +52,7 @@ export default function WelcomeSection() {
             <style>{fontStyle}</style>
             <section
                 ref={ref}
-                className="relative overflow-hidden flex flex-col items-center justify-center px-7 pt-5 pb-14 text-center rounded-b-full"
+                className="relative overflow-hidden flex flex-col items-center justify-center px-7 pt-5 pb-20 text-center rounded-b-full"
                 style={{ background: 'linear-gradient(180deg,#fdf8f0 0%,#faf3e0 40%,#fdf8f0 100%)' }}
             >
                 {/* Falling gold petals */}
