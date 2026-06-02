@@ -19,7 +19,7 @@ export default function QuoteSection() {
     return (
         <section
             ref={ref}
-            className="relative flex min-h-[82vh] w-full items-center justify-center overflow-hidden bg-[#ead8bd] bg-[url('/bg-flower1.webp')] bg-cover bg-center px-3.5 py-9 md:hidden"
+            className="relative flex min-h-[82vh] w-full items-center justify-center overflow-hidden bg-[#f5debc] bg-[url('/bgimg2.webp')] bg-cover bg-center px-3.5 py-9 md:hidden"
         >
             <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top,rgba(255,248,220,0.30)_0%,transparent_38%),radial-gradient(circle_at_bottom,rgba(201,168,76,0.07)_0%,transparent_32%),linear-gradient(180deg,rgba(252,247,239,0.35)_0%,rgba(246,236,220,0.28)_45%,rgba(253,248,240,0.35)_100%)]" />
 
@@ -31,7 +31,7 @@ export default function QuoteSection() {
             /> */}
 
             <div
-                className={`relative z-10 w-full max-w-[300px] overflow-hidden rounded-xl bg-[#f4e0c2]/60 pb-5 backdrop-blur-[7px] transition-all duration-700 ease-out ${visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+                className={`relative z-10 w-full shadow-sm max-w-[300px] overflow-hidden rounded-xl bg-[#fae4c3]/60 pb-5 backdrop-blur-[7px] transition-all duration-700 ease-out ${visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
                     }`}
             >
                 <blockquote className="relative z-10 mx-0 mb-6 mt-8 px-8 pt-10 text-center text-[#3b1f0a]">
