@@ -135,11 +135,11 @@ export default function WelcomeSection() {
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.65 }}
                     >
-                        <div>Sharda & Kantilal Kothari</div>
-                        <div>Anamika & Hemant Kothari</div>
-                        <div>Payal & Ujwal Kothari</div>
+                        <div>Late Jatan Devi & Jagat SinghJi Kothari</div>
+                        <div>Priyanka & Sandeepji Kothari</div>
+                        {/* <div>Payal & Ujwal Kothari</div> */}
                     </motion.p>
-                    <motion.h2
+                    {/* <motion.h2
                         className="font-greatvibes leading-[1.05] mb-2"
                         style={{ fontSize: 50, color: '#3d2b1f', filter: 'drop-shadow(0 3px 12px rgba(201,168,76,0.25))' }}
                         initial={{ opacity: 0, y: 22 }}
@@ -157,7 +157,7 @@ export default function WelcomeSection() {
                     >
                         <div>Mishree, Pratham & Parth Kothari</div>
 
-                    </motion.p>
+                    </motion.p> */}
 
                     <motion.p
                         className="wl-cinzel text-sm tracking-[2px]  mb-4"

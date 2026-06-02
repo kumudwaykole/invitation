@@ -128,30 +128,9 @@ export default function HeroSection() {
                             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left,transparent,#c9a84c)' }} />
                         </motion.div>
 
-                        {/* Groom */}
-                        <motion.h1
-                            {...fadeUp(0.6)}
-                            className="font-greatvibes text-[62px] text-brown leading-[1.1] mb-1 "
-                            style={{ filter: 'drop-shadow(0 2px 10px rgba(201,168,76,0.18))' }}
-                        >
-                            Pranav
-                        </motion.h1>
-                        <motion.p {...fadeUp(0.65)} className="font-body text-xs tracking-wide font-bold text-amber-950 uppercase mb-1.5 whitespace-nowrap">
-                            Grand S/O Sau Sharda &amp; Shri Kantilalji Kothari
-                        </motion.p>
-                        <motion.p {...fadeUp(0.65)} className="font-body text-[10px] tracking-widest font-bold text-amber-950 uppercase mb-1.5">
-                            (Pirgal)
-                        </motion.p>
-                        <motion.p {...fadeUp(0.65)} className="font-body text-xs tracking-widest font-bold text-amber-950 uppercase mb-5.5">
-                            S/O of Anamika &amp; Hemant Kothari
-                        </motion.p>
 
-                        <motion.div
-                            {...fadeUp(0.75)}
-                            className="font-cormorant text-xl tracking-[4px] font-bold text-brown-muted uppercase leading-none my-3"
-                        >
-                            and
-                        </motion.div>
+
+
 
                         {/* Bride */}
                         <motion.h1
@@ -171,6 +150,30 @@ export default function HeroSection() {
                             D/O of Priyanka &amp; Sandeepji Kothari
                         </motion.p>
 
+                        <motion.div
+                            {...fadeUp(0.75)}
+                            className="font-cormorant text-xl tracking-[4px] font-bold text-brown-muted uppercase leading-none my-3"
+                        >
+                            and
+                        </motion.div>
+
+                        {/* Groom */}
+                        <motion.h1
+                            {...fadeUp(0.6)}
+                            className="font-greatvibes text-[62px] text-brown leading-[1.1] mb-1 "
+                            style={{ filter: 'drop-shadow(0 2px 10px rgba(201,168,76,0.18))' }}
+                        >
+                            Pranav
+                        </motion.h1>
+                        <motion.p {...fadeUp(0.65)} className="font-body text-xs tracking-wide font-bold text-amber-950 uppercase mb-1.5 whitespace-nowrap">
+                            Grand S/O Sau Sharda &amp; Shri Kantilalji Kothari
+                        </motion.p>
+                        <motion.p {...fadeUp(0.65)} className="font-body text-[10px] tracking-widest font-bold text-amber-950 uppercase mb-1.5">
+                            (Pirgal)
+                        </motion.p>
+                        <motion.p {...fadeUp(0.65)} className="font-body text-xs tracking-widest font-bold text-amber-950 uppercase mb-5.5">
+                            S/O of Anamika &amp; Hemant Kothari
+                        </motion.p>
                         {/* Scroll hint */}
                         <motion.div
                             initial={{ opacity: 0 }}
