@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import CalligraphicFlourish from './CalligraphicFlourish';
 
 export function RosePetal({ left }) {
     const dur = 4.5 + Math.random() * 4;
@@ -31,14 +32,43 @@ export default function VenueSection() {
         <section
             ref={ref}
             className="min-h-[70vh] pt-5 pb-5 px-6 relative overflow-hidden"
-            style={{ background: 'linear-gradient(180deg,#fdf8f0 0%,#fff5f7 55%,#fdf8f0 100%)' }}
         >
-            {/* Petals */}
-            {/* {Array.from({ length: 14 }).map((_, i) => (
-                <RosePetal key={i} left={4 + (i * 6.5) % 92} />
-            ))} */}
+            {/* ── Base background color ── */}
+            <div className="absolute inset-0 z-0" style={{ background: '#fdf5e8' }} />
 
-            <div className="max-w-105 mx-auto relative z-3">
+            {/* ── Tiled texture.svg ── */}
+            <div
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none z-[1]"
+                style={{
+                    backgroundImage: 'url(/texture.svg)',
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: 'auto',
+                    opacity: 0.1,
+                }}
+            />
+
+            {/* ── Top fade — blends into section above (#fdf7ee) ── */}
+            <div
+                aria-hidden="true"
+                className="absolute top-0 left-0 right-0 pointer-events-none z-[2]"
+                style={{
+                    height: '140px',
+                    background: 'linear-gradient(to bottom, #fdf7ee 0%, transparent 100%)',
+                }}
+            />
+
+            {/* ── Bottom fade — blends into section below (#fcf4ec) ── */}
+            <div
+                aria-hidden="true"
+                className="absolute bottom-0 left-0 right-0 pointer-events-none z-[2]"
+                style={{
+                    height: '140px',
+                    background: 'linear-gradient(to top, #fcf4ec 0%, transparent 100%)',
+                }}
+            />
+
+            <div className="max-w-105 mx-auto relative z-[3]">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 18 }}
@@ -54,7 +84,11 @@ export default function VenueSection() {
                         <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left,transparent,#c9a84c)' }} />
                     </div>
                 </motion.div>
-
+                <CalligraphicFlourish
+                    variant="mid-right"
+                    position={{ top: '28%', right: 0 }}
+                    delay={0.5}
+                />
                 {/* Card */}
                 <motion.div
                     initial={{ opacity: 0, y: 28 }}
@@ -64,37 +98,9 @@ export default function VenueSection() {
                     style={{
                         background: 'linear-gradient(135deg,#fff,#fffdf8)',
                         border: '1px solid rgba(201,168,76,0.28)',
-                        boxShadow: '0 18px 56px rgba(0,0,0,0.07)',
+                        // boxShadow: '0 18px 56px rgba(0,0,0,0.07)',
                     }}
                 >
-                    {/* Banner top */}
-                    {/* <div
-                        className="px-6 py-8 text-center relative overflow-hidden"
-                        style={{ background: 'linear-gradient(135deg,#1a3a5c 0%,#2d5986 50%,#1a3a5c 100%)' }}
-                    >
-                        {Array.from({ length: 12 }).map((_, i) => (
-                            <motion.span
-                                key={i}
-                                animate={{ opacity: [0.18, 0.72, 0.18] }}
-                                transition={{ duration: 2, repeat: Infinity, delay: i * 0.25 }}
-                                className="absolute text-[rgba(255,255,190,0.7)] text-[9px]"
-                                style={{ top: `${8 + i * 7}%`, left: `${4 + (i * 8.5) % 92}%` }}
-                            >
-                                ★
-                            </motion.span>
-                        ))}
-                        <div className="text-[38px] mb-2">🏛️</div>
-                        <p
-                            className="font-script text-3xl text-[#ffd700]"
-                            style={{ textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}
-                        >
-                            Aditya Lawn
-                        </p>
-                        <p className="font-cinzel text-xs tracking-[2px] text-white/70 uppercase mt-1">
-                            Jalgaon, Maharashtra
-                        </p>
-                    </div> */}
-
                     {/* Details */}
                     <div className="p-6">
                         <div className="flex items-start gap-3 mb-5">
@@ -103,7 +109,6 @@ export default function VenueSection() {
                                 <p className="font-display text-[16px] font-semibold text-brown mb-[3px]">
                                     Jabalpur
                                 </p>
-
                                 <p className="font-body text-[12px] text-brown-muted leading-[1.5]">
                                     Jabalpur, Madhya Pradesh
                                 </p>

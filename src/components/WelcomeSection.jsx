@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import CalligraphicFlourish from './CalligraphicFlourish';
 
 const fontStyle = `
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
@@ -7,7 +8,6 @@ const fontStyle = `
   .wl-cormorant  { font-family: 'Cormorant Garamond', serif; }
 `;
 
-/* ── Floating gold petals ── */
 function GoldPetal({ index }) {
     const left = 4 + (index * 9.3) % 92;
     const dur = 6 + (index * 0.7) % 5;
@@ -26,7 +26,6 @@ function GoldPetal({ index }) {
     );
 }
 
-/* ── Animated gold divider ── */
 function GoldDivider({ delay = 0 }) {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.5 });
     return (
@@ -55,6 +54,18 @@ export default function WelcomeSection() {
                 className="relative overflow-hidden flex flex-col items-center justify-center px-7 pt-5 pb-20 text-center rounded-b-full"
                 style={{ background: 'linear-gradient(180deg,#fdf8f0 0%,#faf3e0 40%,#fdf8f0 100%)' }}
             >
+                {/* ── Tiled texture overlay ── */}
+                <div
+                    aria-hidden="true"
+                    className="absolute inset-0 pointer-events-none z-0"
+                    style={{
+                        backgroundImage: 'url(/texture.svg)',
+                        backgroundRepeat: 'repeat',
+                        backgroundSize: 'auto',
+                        opacity: 0.07,
+                    }}
+                />
+
                 {/* Falling gold petals */}
                 {Array.from({ length: 16 }).map((_, i) => <GoldPetal key={i} index={i} />)}
 
@@ -69,7 +80,6 @@ export default function WelcomeSection() {
 
                 <div className="relative z-10 max-w-[360px] w-full">
 
-                    {/* Eyebrow */}
                     <motion.p
                         className="wl-cinzel text-xs tracking-[4px] uppercase mb-3"
                         style={{ color: '#a07830' }}
@@ -80,45 +90,10 @@ export default function WelcomeSection() {
                         With Heartfelt Love
                     </motion.p>
 
-                    {/* Main heading */}
-
-
                     <div className="my-5">
                         <GoldDivider delay={0.25} />
                     </div>
 
-                    {/* Invite line
-                    <motion.p
-                        className="wl-cormorant italic text-2xl leading-8 mb-8"
-                        style={{ color: '#7a5c42' }}
-                        initial={{ opacity: 0 }}
-                        animate={inView ? { opacity: 1 } : {}}
-                        transition={{ duration: 0.7, delay: 0.35 }}
-                    >
-                        The Kothari Family invites you to celebrate this union of love
-                    </motion.p> */}
-
-
-                    {/* ── Date stamp ── */}
-                    {/* <motion.div
-                        initial={{ opacity: 0, scale: 0.8, rotate: -4 }}
-                        animate={inView ? { opacity: 1, scale: 1, rotate: -3 } : {}}
-                        transition={{ duration: 0.75, delay: 0.95, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-28 h-28 rounded-full flex flex-col items-center justify-center mx-auto mb-9"
-                        style={{
-                            background: 'linear-gradient(145deg,rgba(255,253,245,0.9),rgba(250,243,224,0.8))',
-                            border: '2px solid rgba(201,168,76,0.45)',
-                            boxShadow: '0 8px 24px rgba(201,168,76,0.18)',
-                        }}
-                    >
-                        <span className="wl-cinzel font-bold leading-none" style={{ fontSize: 24, color: '#3d2b1f' }}>18</span>
-                        <span className="font-greatvibes leading-[1.1]" style={{ fontSize: 22, color: '#c9a84c' }}>May</span>
-                        <span className="wl-cinzel font-semibold leading-[1.3]" style={{ fontSize: 12, color: '#5c3d1e' }}>2026</span>
-                        <span className="wl-cinzel text-[7px] tracking-[1px] uppercase" style={{ color: '#a07830', marginTop: 1 }}>Jalgaon</span>
-                    </motion.div> */}
-
-
-                    {/* Main heading */}
                     <motion.h2
                         className="font-greatvibes leading-[1.05] mb-2"
                         style={{ fontSize: 68, color: '#3d2b1f', filter: 'drop-shadow(0 3px 12px rgba(201,168,76,0.25))' }}
@@ -128,8 +103,14 @@ export default function WelcomeSection() {
                     >
                         Best Regards
                     </motion.h2>
+                    <CalligraphicFlourish
+                        variant="corner-tr"
+                        position={{ top: -50, right: -40 }}
+                        color={{ primary: '#b45309', secondary: '#d97706' }}
+                        delay={0.2}
+                    />
                     <motion.p
-                        className="wl-serif text-lg tracking-[2px]  mb-4"
+                        className="wl-serif text-lg tracking-[2px] mb-4"
                         style={{ color: '#a07830' }}
                         initial={{ opacity: 0, y: 14 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -137,30 +118,10 @@ export default function WelcomeSection() {
                     >
                         <div>Late Jatan Devi & Jagat SinghJi Kothari</div>
                         <div>Priyanka & Sandeepji Kothari</div>
-                        {/* <div>Payal & Ujwal Kothari</div> */}
                     </motion.p>
-                    {/* <motion.h2
-                        className="font-greatvibes leading-[1.05] mb-2"
-                        style={{ fontSize: 50, color: '#3d2b1f', filter: 'drop-shadow(0 3px 12px rgba(201,168,76,0.25))' }}
-                        initial={{ opacity: 0, y: 22 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.12 }}
-                    >
-                        Chirpy Family
-                    </motion.h2>
-                    <motion.p
-                        className="wl-serif text-lg tracking-[2px]  mb-4"
-                        style={{ color: '#a07830' }}
-                        initial={{ opacity: 0, y: 14 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.65 }}
-                    >
-                        <div>Mishree, Pratham & Parth Kothari</div>
-
-                    </motion.p> */}
 
                     <motion.p
-                        className="wl-cinzel text-sm tracking-[2px]  mb-4"
+                        className="wl-cinzel text-sm tracking-[2px] mb-4"
                         style={{ color: '#390F0F' }}
                         initial={{ opacity: 0, y: 14 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -169,9 +130,8 @@ export default function WelcomeSection() {
                         Your presence will make it truly special.
                     </motion.p>
 
-
-                </div >
-            </section >
+                </div>
+            </section>
         </>
     );
 }

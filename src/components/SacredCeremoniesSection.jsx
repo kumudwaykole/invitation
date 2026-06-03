@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { RosePetal } from './VenueSection';
-
+import CalligraphicFlourish from './CalligraphicFlourish';
 const VIDEOS = [
     { src: '/day1.mp4', poster: '/CarnivalXHaldi.webp', date: '3rd July' },
     { src: '/day2.mp4', poster: '/day2-image.webp', date: '4th July' },
@@ -255,7 +255,18 @@ export default function SacredCeremoniesSection() {
                     </h2>
                     <GoldDivider />
                 </motion.div>
-
+                <CalligraphicFlourish
+                    variant="corner-tr"
+                    position={{ top: 150, right: 0 }}
+                    color={{ primary: '#b45309', secondary: '#d97706' }}
+                    delay={0.2}
+                />
+                <CalligraphicFlourish
+                    variant="corner-bl"
+                    position={{ bottom: -90, left: 0 }}
+                    size={0.85}
+                    delay={0.4}
+                />
                 <div className="flex flex-col gap-8">
                     {VIDEOS.map((video, i) => (
                         <div key={i}>

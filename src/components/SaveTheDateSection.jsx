@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import confetti from 'canvas-confetti';
+import CalligraphicFlourish from './CalligraphicFlourish';
 
 const fontStyle = `
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
@@ -438,7 +439,16 @@ export default function SaveTheDateSection() {
                     >
                         A beautiful chapter of forever is about to begin.
                     </motion.p>
-
+                    <CalligraphicFlourish
+                        variant="corner-tl"
+                        position={{ top: -150, left: -40 }}
+                    />
+                    <CalligraphicFlourish
+                        variant="corner-br"
+                        position={{ bottom: -150, right: -40 }}
+                        size={0.85}
+                        delay={0.6}
+                    />
                     <GoldDivider inView={inView} />
 
                     {/* Scratch card */}

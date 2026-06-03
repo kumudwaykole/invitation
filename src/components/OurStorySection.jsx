@@ -184,6 +184,16 @@ export default function OurStorySection() {
                 className="min-h-screen px-7 pt-22 pb-22 relative overflow-hidden rounded-full -mt-40 z-20 bg-amber-950"
             // style={{ background: 'linear-gradient(180deg,#f7f3ea 0%,#fdf8f0 100%)' }}
             >
+                <div
+                    aria-hidden="true"
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        backgroundImage: 'url(/texture.svg)',
+                        backgroundRepeat: 'repeat',
+                        backgroundSize: 'auto',  // tiles at SVG's intrinsic size
+                        opacity: 0.12,           // adjust: 0.08 subtle → 0.20 bold
+                    }}
+                />
                 {/* Ambient floating sparkles */}
                 {Array.from({ length: 9 }).map((_, i) => (
                     <motion.span
