@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 const CARDS = [
     {
         caption: 'How it started…',
-        src: '/pranav-tejaswi.webp',   // ← replace
+        src: '/whenitstarted.jpeg',   // ← replace
         rotation: -5,
         tape: true,
         tapeAngle: -12,
