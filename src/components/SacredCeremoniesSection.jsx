@@ -4,8 +4,8 @@ import { useInView } from 'react-intersection-observer';
 import { RosePetal } from './VenueSection';
 import CalligraphicFlourish from './CalligraphicFlourish';
 const VIDEOS = [
-    { src: '/dayone_tejaswi.mp4', poster: '/day1fallback.webp', date: '3rd July' },
-    { src: '/daytwo_Video.mp4', poster: '/day2fallback.webp', date: '4th July' },
+    { src: '/dayone_tejaswi.mp4', poster: '/day1fallbackimg.webp', date: '3rd July' },
+    { src: '/daytwo_Video.mp4', poster: '/day2fallback1.webp', date: '4th July' },
 ];
 
 function GoldDivider() {
