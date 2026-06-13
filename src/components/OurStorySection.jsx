@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-// ─── Replace these src values with your own image URLs or local paths ───────
 const CARDS = [
     {
         caption: "How it started…",
@@ -28,7 +27,6 @@ const CARDS = [
         tag: "forever begins",
     },
 ];
-// ─────────────────────────────────────────────────────────────────────────────
 
 const fontStyle = `
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&family=Dancing+Script:wght@600;700&family=Great+Vibes&display=swap');
@@ -37,9 +35,59 @@ const fontStyle = `
   .story-script { font-family: 'Dancing Script', cursive; }
   .story-great { font-family: 'Great Vibes', cursive; }
   .story-cormorant { font-family: 'Cormorant Garamond', serif; }
+
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0) scale(0.9); opacity: 0.18; }
+    50% { transform: translateY(-10px) scale(1.15); opacity: 0.78; }
+  }
+
+  @keyframes blobFloat1 {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(20px) scale(1.08); }
+  }
+
+  @keyframes blobFloat2 {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-18px) scale(1.1); }
+  }
+
+  @keyframes spinHeart {
+    0%, 100% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+    25% { transform: translateX(-50%) translateY(-50%) rotate(8deg); }
+    75% { transform: translateX(-50%) translateY(-50%) rotate(-8deg); }
+  }
+
+  @keyframes stickerBob {
+    0%, 100% { transform: translateY(0) rotate(12deg); }
+    50% { transform: translateY(-5px) rotate(17deg); }
+  }
+
+  .story-blob-1 {
+    animation: blobFloat1 7s ease-in-out infinite;
+  }
+  .story-blob-2 {
+    animation: blobFloat2 8s ease-in-out infinite;
+  }
+  .story-heart-spin {
+    animation: spinHeart 4s ease-in-out infinite;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+  .story-sticker {
+    animation: stickerBob 3.4s ease-in-out infinite;
+  }
+
+  .polaroid-card {
+    transition: transform 0.3s ease, z-index 0s;
+    will-change: transform;
+  }
+  .polaroid-card:hover {
+    transform: scale(1.045) rotate(0deg) translateY(-8px) !important;
+    z-index: 30;
+  }
 `;
 
-/* ── Cute washi tape ── */
 function Tape({ angle }) {
     return (
         <div
@@ -52,14 +100,12 @@ function Tape({ angle }) {
                 background:
                     "repeating-linear-gradient(45deg, rgba(255,244,214,0.88) 0 7px, rgba(244,205,175,0.72) 7px 14px)",
                 boxShadow: "0 4px 12px rgba(55, 28, 15, 0.14)",
-                backdropFilter: "blur(2px)",
                 border: "1px solid rgba(255,236,198,0.45)",
             }}
         />
     );
 }
 
-/* ── Floating romantic tiny elements ── */
 function FloatingRomanticElements() {
     const items = [
         { text: "♡", top: "9%", left: "8%", size: 18, delay: 0 },
@@ -75,21 +121,9 @@ function FloatingRomanticElements() {
     return (
         <>
             {items.map((item, i) => (
-                <motion.span
+                <span
                     key={i}
                     className="pointer-events-none absolute z-[2] select-none"
-                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                    animate={{
-                        opacity: [0.18, 0.78, 0.18],
-                        y: [0, -10, 0],
-                        scale: [0.9, 1.15, 0.9],
-                    }}
-                    transition={{
-                        duration: 3.2 + i * 0.22,
-                        repeat: Infinity,
-                        delay: item.delay,
-                        ease: "easeInOut",
-                    }}
                     style={{
                         top: item.top,
                         left: item.left,
@@ -97,16 +131,17 @@ function FloatingRomanticElements() {
                         color: i % 2 === 0 ? "#f6d7c5" : "#d8b86a",
                         fontFamily: item.text === "love" ? "'Dancing Script', cursive" : "serif",
                         textShadow: "0 6px 18px rgba(0,0,0,0.18)",
+                        animation: `floatY ${3.2 + i * 0.22}s ease-in-out infinite`,
+                        animationDelay: `${item.delay}s`,
                     }}
                 >
                     {item.text}
-                </motion.span>
+                </span>
             ))}
         </>
     );
 }
 
-/* ── Soft ribbon decoration ── */
 function RibbonLine({ inView }) {
     return (
         <motion.div
@@ -116,19 +151,13 @@ function RibbonLine({ inView }) {
             transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
         >
             <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-gradient-to-r from-transparent via-[#d9b777] to-transparent" />
-
-            <motion.div
-                className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#f6d7c5]/60 bg-[#5a351f]/90 shadow-[0_8px_26px_rgba(31,14,8,0.25)]"
-                animate={{ rotate: [0, 8, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
-                <span className="text-[16px] text-[#ffd8c6]">♡</span>
-            </motion.div>
+            <div className="absolute left-1/2 top-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-[#f6d7c5]/60 bg-[#5a351f]/90 shadow-[0_8px_26px_rgba(31,14,8,0.25)]">
+                <span className="story-heart-spin text-[16px] text-[#ffd8c6]">♡</span>
+            </div>
         </motion.div>
     );
 }
 
-/* ── Cute love note card ── */
 function LoveNote({ inView }) {
     return (
         <motion.div
@@ -140,13 +169,11 @@ function LoveNote({ inView }) {
             <div className="absolute -left-3 -top-3 flex h-8 w-8 rotate-[-12deg] items-center justify-center rounded-full bg-[#f6d7c5] text-[#6b3d24] shadow-md">
                 ♡
             </div>
-
             <div className="absolute -right-2 -top-2 h-8 w-8 rounded-full border border-[#d8b86a]/40 bg-[#6a3d23] shadow-md">
                 <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[54%] text-[15px] text-[#f7ddb3]">
                     ✦
                 </span>
             </div>
-
             <p className="story-cormorant text-[15px] italic leading-[1.65] text-[#ffe9d7]">
                 From little smiles to forever promises, every moment became a page of our
                 sweetest story.
@@ -155,56 +182,26 @@ function LoveNote({ inView }) {
     );
 }
 
-/* ── Single polaroid card ── */
 function Polaroid({ card, index }) {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.12 });
-
-    const fanVariants = {
-        hidden: {
-            opacity: 0,
-            y: 95 + index * 18,
-            rotate: card.rotation * 2,
-            scale: 0.88,
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-            rotate: card.rotation,
-            scale: 1,
-            transition: {
-                duration: 0.9,
-                delay: index * 0.16,
-                ease: [0.22, 1, 0.36, 1],
-            },
-        },
-    };
 
     return (
         <motion.div
             ref={ref}
-            variants={fanVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            whileHover={{
-                scale: 1.045,
-                rotate: 0,
-                zIndex: 30,
-                y: -8,
-                transition: { duration: 0.3, ease: "easeOut" },
-            }}
-            className="relative mx-auto cursor-default"
-            style={{ width: 262, zIndex: 10 + index }}
+            initial={{ opacity: 0, y: 95 + index * 18, rotate: card.rotation * 2, scale: 0.88 }}
+            animate={inView ? { opacity: 1, y: 0, rotate: card.rotation, scale: 1 } : {}}
+            transition={{ duration: 0.9, delay: index * 0.16, ease: [0.22, 1, 0.36, 1] }}
+            className="polaroid-card relative mx-auto cursor-default"
+            style={{ width: 262, zIndex: 10 + index, rotate: `${card.rotation}deg` }}
         >
             {card.tape && <Tape angle={card.tapeAngle} />}
 
-            {/* Small floating sticker */}
-            <motion.div
-                className="absolute -right-4 top-8 z-20 flex h-10 w-10 rotate-12 items-center justify-center rounded-full bg-[#f6d7c5] text-[#6a3d23] shadow-[0_8px_22px_rgba(35,15,8,0.2)]"
-                animate={{ y: [0, -5, 0], rotate: [12, 17, 12] }}
-                transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
+            {/* Floating sticker — CSS animation */}
+            <div
+                className="story-sticker absolute -right-4 top-8 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-[#f6d7c5] text-[#6a3d23] shadow-[0_8px_22px_rgba(35,15,8,0.2)]"
             >
                 ♡
-            </motion.div>
+            </div>
 
             {/* Polaroid body */}
             <div
@@ -216,14 +213,14 @@ function Polaroid({ card, index }) {
                     outline: "1px solid rgba(255,232,202,0.65)",
                 }}
             >
-                {/* Tiny top text */}
+                {/* Tag */}
                 <div className="absolute left-4 top-4 z-10 rounded-full bg-[#4d2d1d]/75 px-2.5 py-1 backdrop-blur-sm">
                     <p className="story-cinzel text-[7px] uppercase tracking-[1.8px] text-[#ffe1cc]">
                         {card.tag}
                     </p>
                 </div>
 
-                {/* Photo area */}
+                {/* Photo */}
                 <div className="relative h-[224px] w-full overflow-hidden rounded-[5px] bg-[#f7eadb]">
                     <img
                         src={card.src}
@@ -234,7 +231,6 @@ function Polaroid({ card, index }) {
                             e.currentTarget.style.display = "none";
                             e.currentTarget.parentElement.style.background =
                                 "linear-gradient(135deg,#fff1e4,#ead0bd,#f9e7d4)";
-
                             if (!e.currentTarget.parentElement.querySelector(".ph-label")) {
                                 const el = document.createElement("div");
                                 el.className = "ph-label";
@@ -245,17 +241,13 @@ function Polaroid({ card, index }) {
                             }
                         }}
                     />
-
-                    {/* Romantic soft photo overlay */}
+                    {/* Single vignette — replaced the two radial-gradient layers */}
                     <div
                         className="pointer-events-none absolute inset-0"
                         style={{
-                            background:
-                                "radial-gradient(circle at 20% 18%, rgba(255,222,205,0.30), transparent 30%), radial-gradient(ellipse at center, transparent 55%, rgba(55,25,12,0.22) 100%)",
+                            background: "radial-gradient(ellipse at center, transparent 55%, rgba(55,25,12,0.22) 100%)",
                         }}
                     />
-
-                    {/* Bottom mini shine */}
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#2b1309]/35 to-transparent" />
                 </div>
 
@@ -267,11 +259,6 @@ function Polaroid({ card, index }) {
                     {card.caption}
                 </p>
 
-                {/* <p className="story-cormorant mt-1 text-center text-[12px] italic tracking-wide text-[#8a6348]">
-                    a little memory, a lot of love
-                </p> */}
-
-                {/* Cute bottom doodles */}
                 <div className="absolute bottom-3 left-4 text-[13px] text-[#d7a487]">♡</div>
                 <div className="absolute bottom-3 right-4 text-[12px] text-[#c9a84c]">✦</div>
             </div>
@@ -279,7 +266,6 @@ function Polaroid({ card, index }) {
     );
 }
 
-/* ── Main section ── */
 export default function OurStorySection() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.06 });
 
@@ -303,29 +289,24 @@ export default function OurStorySection() {
                     }}
                 />
 
-                {/* Soft romantic color layers */}
+                {/* Single subtle color wash — replaced 4-layer radial stack */}
                 <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0"
                     style={{
                         background:
-                            "radial-gradient(circle at 18% 12%, rgba(246,215,197,0.22), transparent 28%), radial-gradient(circle at 88% 30%, rgba(217,183,119,0.16), transparent 30%), radial-gradient(circle at 50% 100%, rgba(255,232,210,0.12), transparent 35%), linear-gradient(180deg, rgba(255,245,232,0.04), rgba(70,36,20,0.14))",
+                            "radial-gradient(circle at 18% 12%, rgba(246,215,197,0.18), transparent 28%)",
                     }}
                 />
 
-                {/* Cute blurred blobs */}
-                <motion.div
+                {/* Blobs — CSS animations, no JS */}
+                <div
                     aria-hidden="true"
-                    className="absolute -left-20 top-24 h-44 w-44 rounded-full bg-[#f6d7c5]/20 blur-3xl"
-                    animate={{ y: [0, 20, 0], scale: [1, 1.08, 1] }}
-                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                    className="story-blob-1 absolute -left-20 top-24 h-44 w-44 rounded-full bg-[#f6d7c5]/20 blur-3xl"
                 />
-
-                <motion.div
+                <div
                     aria-hidden="true"
-                    className="absolute -right-24 bottom-28 h-52 w-52 rounded-full bg-[#d8b86a]/15 blur-3xl"
-                    animate={{ y: [0, -18, 0], scale: [1, 1.1, 1] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    className="story-blob-2 absolute -right-24 bottom-28 h-52 w-52 rounded-full bg-[#d8b86a]/15 blur-3xl"
                 />
 
                 <FloatingRomanticElements />
@@ -387,14 +368,12 @@ export default function OurStorySection() {
                     <RibbonLine inView={inView} />
                     <LoveNote inView={inView} />
 
-                    {/* Polaroid cards */}
                     <div className="flex flex-col items-center gap-[46px]">
                         {CARDS.map((card, index) => (
                             <Polaroid key={index} card={card} index={index} />
                         ))}
                     </div>
 
-                    {/* Closing cute line */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
