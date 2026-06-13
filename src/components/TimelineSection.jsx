@@ -18,7 +18,7 @@ const events = [
     { time: "3:00 – 5:00 PM", title: "Marya Royalty", side: "left" },
     { time: "7:00 PM Onwards", title: "Sangeet", side: "right" },
     { time: "7:00 – 7:48 AM", title: "Samayik", side: "left", day: "4th July" },
-    { time: "12:30 AM", title: "Barat Swagat", side: "right" },
+    { time: "12:30 PM", title: "Barat Swagat", side: "right" },
     { time: "12:30 PM", title: "Varmala", side: "left" },
     { time: "1:30 – 3:00 PM", title: "Sajan Goth", side: "right" },
     { time: "5:30 PM Onwards", title: "Musical Phera", side: "left" },
