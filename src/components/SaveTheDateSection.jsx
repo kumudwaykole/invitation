@@ -8,9 +8,17 @@ const fontStyle = `
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
   .save-cinzel { font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.06em; }
   .save-cormorant { font-family: 'Cormorant Garamond', serif; }
+
+  @keyframes shimmerSlide {
+    0%   { transform: translateX(-120%); }
+    100% { transform: translateX(220%); }
+  }
+  .shimmer-bar {
+    animation: shimmerSlide 1.4s linear infinite;
+    will-change: transform;
+  }
 `;
 
-// Target: 4th July 2026, 12:00 PM IST (UTC+5:30)
 const WEDDING_DATE = new Date('2026-07-04T12:00:00+05:30');
 
 function getTimeLeft() {
@@ -25,7 +33,7 @@ function getTimeLeft() {
 }
 
 function CountdownTimer() {
-    const [time, setTime] = useState(getTimeLeft());
+    const [time, setTime] = useState(getTimeLeft);
 
     useEffect(() => {
         const id = setInterval(() => setTime(getTimeLeft()), 1000);
@@ -49,16 +57,14 @@ function CountdownTimer() {
             <p className="save-cinzel text-[10px] tracking-[3px] uppercase" style={{ color: '#a07830' }}>
                 Counting Down
             </p>
-
             <div className="flex gap-3 items-start">
                 {units.map(({ label, value }, i) => (
                     <div key={label} className="flex items-center gap-3">
                         <div className="flex flex-col items-center">
-                            <motion.div
+                            <div
                                 className="relative flex items-center justify-center rounded-[10px]"
                                 style={{
-                                    width: 62,
-                                    height: 62,
+                                    width: 62, height: 62,
                                     background: 'linear-gradient(145deg,#fffdf5,#faf3e0)',
                                     border: '1px solid rgba(201,168,76,0.4)',
                                     boxShadow: '0 4px 16px rgba(201,168,76,0.18)',
@@ -77,21 +83,13 @@ function CountdownTimer() {
                                         {String(value).padStart(2, '0')}
                                     </motion.span>
                                 </AnimatePresence>
-                            </motion.div>
-                            <span
-                                className="save-cinzel text-[9px] tracking-[2px] uppercase mt-1.5"
-                                style={{ color: '#b08840' }}
-                            >
+                            </div>
+                            <span className="save-cinzel text-[9px] tracking-[2px] uppercase mt-1.5" style={{ color: '#b08840' }}>
                                 {label}
                             </span>
                         </div>
                         {i < 3 && (
-                            <span
-                                className="save-cinzel text-[22px] mt-2.5"
-                                style={{ color: 'rgba(201,168,76,0.5)', lineHeight: 1 }}
-                            >
-                                :
-                            </span>
+                            <span className="save-cinzel text-[22px] mt-2.5" style={{ color: 'rgba(201,168,76,0.5)', lineHeight: 1 }}>:</span>
                         )}
                     </div>
                 ))}
@@ -100,58 +98,48 @@ function CountdownTimer() {
     );
 }
 
+// CSS shimmer — no Framer Motion backgroundPosition animation
+function ShimmerLayer({ active }) {
+    if (!active) return null;
+    return (
+        <div className="absolute inset-0 pointer-events-none z-10 rounded-[10px] overflow-hidden">
+            <div
+                className="shimmer-bar absolute inset-y-0 w-[60%]"
+                style={{
+                    background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,220,0.45) 50%, transparent 65%)',
+                }}
+            />
+        </div>
+    );
+}
+
+// Simplified sparkle — fewer elements, CSS transform
 function SparkleBurst() {
     return (
         <motion.div
             className="absolute inset-0 pointer-events-none z-20"
             initial={{ opacity: 1 }}
             animate={{ opacity: 0 }}
-            transition={{ duration: 1.2, delay: 0.4 }}
+            transition={{ duration: 1.0, delay: 0.3 }}
         >
-            {[...Array(8)].map((_, i) => {
-                const angle = (i / 8) * 360;
+            {[...Array(6)].map((_, i) => {
+                const angle = (i / 6) * 360;
                 return (
                     <motion.div
                         key={i}
                         className="absolute top-1/2 left-1/2 w-[3px] h-[3px] rounded-full"
-                        style={{ background: i % 2 === 0 ? '#c9a84c' : '#e8c96a', originX: '0%', originY: '0%' }}
-                        initial={{ x: 0, y: 0, scale: 1, opacity: 1 }}
+                        style={{ background: i % 2 === 0 ? '#c9a84c' : '#e8c96a' }}
+                        initial={{ x: 0, y: 0, opacity: 1 }}
                         animate={{
-                            x: Math.cos((angle * Math.PI) / 180) * 54,
-                            y: Math.sin((angle * Math.PI) / 180) * 54,
-                            scale: 0,
+                            x: Math.cos((angle * Math.PI) / 180) * 48,
+                            y: Math.sin((angle * Math.PI) / 180) * 48,
                             opacity: 0,
                         }}
-                        transition={{ duration: 0.7, ease: 'easeOut' }}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
                     />
                 );
             })}
         </motion.div>
-    );
-}
-
-function ShimmerLayer({ active }) {
-    return (
-        <AnimatePresence>
-            {active && (
-                <motion.div
-                    className="absolute inset-0 pointer-events-none z-10 rounded-[10px] overflow-hidden"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                >
-                    <motion.div
-                        className="absolute inset-0"
-                        style={{
-                            background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,220,0.45) 50%, transparent 65%)',
-                            backgroundSize: '200% 100%',
-                        }}
-                        animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
-                        transition={{ duration: 1.4, repeat: Infinity, ease: 'linear' }}
-                    />
-                </motion.div>
-            )}
-        </AnimatePresence>
     );
 }
 
@@ -183,10 +171,6 @@ function ScratchCard({ label, value, delay, onRevealed }) {
         g.addColorStop(1, '#8a6420');
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, CARD_W, CARD_H);
-        for (let i = 0; i < 400; i++) {
-            ctx.fillStyle = `rgba(${Math.random() > 0.5 ? 255 : 0},${Math.random() > 0.5 ? 200 : 100},0,0.03)`;
-            ctx.fillRect(Math.random() * CARD_W, Math.random() * CARD_H, 2, 2);
-        }
         ctx.fillStyle = 'rgba(60,35,5,0.75)';
         ctx.font = 'bold 11px "Cormorant Garamond", serif';
         ctx.textAlign = 'center';
@@ -217,7 +201,7 @@ function ScratchCard({ label, value, delay, onRevealed }) {
         if (gone / (px.length / 4) > 0.5) {
             setRevealed(true);
             setShowSparkle(true);
-            setTimeout(() => setShowSparkle(false), 1200);
+            setTimeout(() => setShowSparkle(false), 1000);
             onRevealed?.();
         }
     };
@@ -225,16 +209,15 @@ function ScratchCard({ label, value, delay, onRevealed }) {
     return (
         <motion.div
             ref={cardRef}
-            initial={{ opacity: 0, y: 40, scale: 0.82, rotateY: -15 }}
-            animate={inView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : {}}
+            initial={{ opacity: 0, y: 40, scale: 0.82 }}
+            animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
             transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center gap-[9px] flex-1"
-            style={{ perspective: 400 }}
         >
-            <motion.span className="save-cinzel text-sm tracking-[2.5px] uppercase" style={{ color: '#a07830' }}>
+            <span className="save-cinzel text-sm tracking-[2.5px] uppercase" style={{ color: '#a07830' }}>
                 {label}
-            </motion.span>
-            <motion.div
+            </span>
+            <div
                 className="relative rounded-[12px] overflow-hidden"
                 style={{
                     width: CARD_W,
@@ -244,25 +227,20 @@ function ScratchCard({ label, value, delay, onRevealed }) {
                         : '0 4px 18px rgba(201,168,76,0.22)',
                     cursor: revealed ? 'default' : 'crosshair',
                 }}
-                animate={revealed ? { scale: [1, 1.07, 1] } : {}}
-                transition={{ duration: 0.45, ease: 'easeOut' }}
                 onMouseEnter={() => !revealed && setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
+                onMouseLeave={() => { setHovered(false); drawing.current = false; }}
             >
-                <motion.div
+                {/* Revealed content */}
+                <div
                     className="absolute inset-0 flex flex-col items-center justify-center"
                     style={{ background: 'linear-gradient(145deg,#fffdf5,#faf3e0)' }}
-                    animate={revealed ? { background: ['linear-gradient(145deg,#fffdf5,#faf3e0)', 'linear-gradient(145deg,#fffbe8,#fdf5d0)', 'linear-gradient(145deg,#fffdf5,#faf3e0)'] } : {}}
-                    transition={{ duration: 0.8 }}
                 >
-                    <motion.span
+                    <span
                         className="save-cinzel leading-none"
                         style={{ fontSize: 34, color: '#3d2b1f', filter: 'drop-shadow(0 2px 6px rgba(201,168,76,0.3))' }}
-                        animate={revealed ? { scale: [0.8, 1.12, 1], opacity: [0, 1] } : { scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     >
                         {value}
-                    </motion.span>
+                    </span>
                     {revealed && (
                         <motion.div
                             initial={{ opacity: 0, scaleX: 0 }}
@@ -272,8 +250,10 @@ function ScratchCard({ label, value, delay, onRevealed }) {
                             style={{ background: 'linear-gradient(to right,transparent,#c9a84c,transparent)' }}
                         />
                     )}
-                </motion.div>
+                </div>
+
                 <ShimmerLayer active={hovered && !revealed} />
+
                 <canvas
                     ref={canvasRef}
                     className="absolute inset-0 touch-none"
@@ -284,24 +264,13 @@ function ScratchCard({ label, value, delay, onRevealed }) {
                     }}
                     onMouseDown={() => { drawing.current = true; }}
                     onMouseUp={() => { drawing.current = false; }}
-                    onMouseLeave={() => { drawing.current = false; setHovered(false); }}
                     onMouseMove={erase}
                     onTouchStart={e => { e.preventDefault(); drawing.current = true; }}
                     onTouchEnd={() => { drawing.current = false; }}
                     onTouchMove={e => { e.preventDefault(); erase(e); }}
                 />
                 {showSparkle && <SparkleBurst />}
-                {revealed && (
-                    <motion.div
-                        initial={{ scale: 0, rotate: -45 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        transition={{ delay: 0.2, type: 'spring', stiffness: 400, damping: 18 }}
-                        className="absolute top-[6px] right-[6px] z-20 flex items-center justify-center"
-                    >
-                        <span style={{ color: '#D4AF37', fontSize: 10, lineHeight: 1, fontWeight: 600 }}>✓</span>
-                    </motion.div>
-                )}
-            </motion.div>
+            </div>
         </motion.div>
     );
 }
@@ -322,61 +291,52 @@ function GoldDivider({ inView }) {
 }
 
 function AddToCalendarButton() {
-    // Google Calendar: 4th July 2026, wedding ceremony at 12pm IST
     const gcalUrl =
         'https://calendar.google.com/calendar/render?action=TEMPLATE' +
         '&text=Wedding+Celebration+%F0%9F%92%9B' +
-        '&dates=20260704T063000Z/20260704T183000Z' + // 12pm–midnight IST = 06:30–18:30 UTC
+        '&dates=20260704T063000Z/20260704T183000Z' +
         '&details=You+are+cordially+invited+to+our+wedding+celebration.+%F0%9F%8C%B8' +
         '&location=Jalgaon%2C+Maharashtra';
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="mt-6 flex flex-col items-center gap-3"
         >
             <p className="save-cormorant italic text-[22px] leading-tight" style={{ color: '#3d2b1f' }}>
                 Mark this special day
             </p>
-            <motion.a
+            <a
                 href={gcalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.45, type: 'spring', stiffness: 300, damping: 20 }}
-                whileHover={{ scale: 1.04, boxShadow: '0 6px 28px rgba(201,168,76,0.4)' }}
-                whileTap={{ scale: 0.97 }}
                 className="flex items-center gap-2.5 px-6 py-3 rounded-full no-underline"
                 style={{
                     background: 'linear-gradient(135deg, #fdf3dc, #fae8b4)',
                     border: '1px solid rgba(201,168,76,0.55)',
                     boxShadow: '0 3px 16px rgba(201,168,76,0.25)',
                     textDecoration: 'none',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                 }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.04)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(201,168,76,0.4)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 3px 16px rgba(201,168,76,0.25)'; }}
             >
-                <span className="save-cinzel text-xs uppercase" style={{ color: '#7a5515' }}>
-                    <p className="save-cinzel text-xs tracking-[3px] uppercase" style={{ color: '#a07830' }}>
-                        On Your Calendar
-                    </p>
-                    {/* <p className="save-cormorant italic text-lg mt-0.5" style={{ color: '#3d2b1f' }}>
-                        July 4, 2026
-                    </p> */}
-                </span>
-            </motion.a>
+                <p className="save-cinzel text-xs tracking-[3px] uppercase" style={{ color: '#a07830' }}>
+                    On Your Calendar
+                </p>
+            </a>
         </motion.div>
     );
 }
 
 export default function SaveTheDateSection() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
-    const [revealedCount, setRevealedCount] = useState(0);
-    const allRevealed = revealedCount >= 1;
+    const [allRevealed, setAllRevealed] = useState(false);
     const confettiFired = useRef(false);
 
-    const handleRevealed = () => setRevealedCount(n => n + 1);
+    const handleRevealed = () => setAllRevealed(true);
 
     useEffect(() => {
         if (allRevealed && !confettiFired.current) {
@@ -387,9 +347,6 @@ export default function SaveTheDateSection() {
                 confetti({ particleCount: 50, angle: 60, spread: 60, startVelocity: 38, origin: { x: 0.1, y: 0.55 }, colors });
                 confetti({ particleCount: 50, angle: 120, spread: 60, startVelocity: 38, origin: { x: 0.9, y: 0.55 }, colors });
             }, 250);
-            setTimeout(() => {
-                confetti({ particleCount: 40, spread: 100, startVelocity: 30, origin: { x: 0.5, y: 0.4 }, colors });
-            }, 550);
         }
     }, [allRevealed]);
 
@@ -401,12 +358,10 @@ export default function SaveTheDateSection() {
                 className="min-h-[80vh] flex flex-col items-center justify-center px-7 py-10 relative overflow-hidden pb-50"
                 style={{ background: 'linear-gradient(180deg,#fdf8f0 0%,#faf3e0 55%,#fdf8f0 100%)' }}
             >
-                <motion.div
+                {/* Static glow orb — no animation, just a soft static bg accent */}
+                <div
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-80 rounded-full pointer-events-none"
-                    style={{ background: 'radial-gradient(circle,rgba(255,248,200,0.55) 0%,transparent 70%)' }}
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    animate={inView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 2, ease: 'easeOut' }}
+                    style={{ background: 'radial-gradient(circle,rgba(255,248,200,0.45) 0%,transparent 70%)' }}
                 />
 
                 <div className="relative z-[1] text-center max-w-[360px] w-full">
@@ -439,19 +394,12 @@ export default function SaveTheDateSection() {
                     >
                         A beautiful chapter of forever is about to begin.
                     </motion.p>
-                    <CalligraphicFlourish
-                        variant="corner-tl"
-                        position={{ top: -150, left: -40 }}
-                    />
-                    <CalligraphicFlourish
-                        variant="corner-br"
-                        position={{ bottom: -150, right: -40 }}
-                        size={0.85}
-                        delay={0.6}
-                    />
+
+                    <CalligraphicFlourish variant="corner-tl" position={{ top: -150, left: -40 }} />
+                    <CalligraphicFlourish variant="corner-br" position={{ bottom: -150, right: -40 }} size={0.85} delay={0.6} />
+
                     <GoldDivider inView={inView} />
 
-                    {/* Scratch card */}
                     <motion.div
                         className="flex justify-center items-start"
                         initial={{ opacity: 0, y: 20 }}
@@ -461,7 +409,6 @@ export default function SaveTheDateSection() {
                         <ScratchCard label="Reveal The Date" value="4 July 2026" delay={0.5} onRevealed={handleRevealed} />
                     </motion.div>
 
-                    {/* Countdown + Calendar — shown after all cards scratched */}
                     <AnimatePresence>
                         {allRevealed && (
                             <motion.div
