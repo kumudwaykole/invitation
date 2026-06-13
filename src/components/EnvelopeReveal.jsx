@@ -129,8 +129,12 @@ export default function EnvelopeReveal({ onReveal }) {
         audioRef.current?.play().catch(() => { });
 
         setPhase('opening');
-        setTimeout(() => setPhase('glow'), 900);
-        setTimeout(() => { setPhase('done'); onReveal?.(); }, 2400);
+
+        // No glow here now. Reveal HeroSection after envelope opens.
+        setTimeout(() => {
+            setPhase('done');
+            onReveal?.();
+        }, 1200);
     };
 
     const toggleMute = (e) => {
@@ -212,7 +216,7 @@ export default function EnvelopeReveal({ onReveal }) {
                         {/* ── END ENVELOPE ── */}
 
                         {/* glow burst */}
-                        <AnimatePresence>
+                        {/* <AnimatePresence>
                             {phase === 'glow' && (
                                 <motion.div key="glow"
                                     initial={{ scale: 0, opacity: 0 }}
@@ -223,7 +227,7 @@ export default function EnvelopeReveal({ onReveal }) {
                                     style={{ background: 'radial-gradient(circle,#fffde7 0%,#fff9c4 35%,#fdf8f0 60%,transparent 80%)' }}
                                 />
                             )}
-                        </AnimatePresence>
+                        </AnimatePresence> */}
 
                         {/* tap hint */}
                         <AnimatePresence>

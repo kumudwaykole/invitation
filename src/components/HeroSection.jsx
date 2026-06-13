@@ -27,6 +27,99 @@ const BG_IMAGE_URL = '/bgimg1.webp';
 
 const doorEase = [0.76, 0, 0.74, 2];
 
+const GLOW_DELAY = DOOR_DELAY + 1.25;
+
+function DoorOpeningGlow() {
+    return (
+        <>
+            {/* Full screen reveal glow - slow open, quick fade */}
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    scale: 0.18,
+                    clipPath: 'circle(0% at 50% 50%)',
+                }}
+                animate={{
+                    opacity: [0, 1, 0.78, 0],
+                    scale: [0.18, 0.9, 1.45, 1.95],
+                    clipPath: [
+                        'circle(0% at 50% 50%)',
+                        'circle(48% at 50% 50%)',
+                        'circle(125% at 50% 50%)',
+                        'circle(175% at 50% 50%)',
+                    ],
+                }}
+                transition={{
+                    duration: 4.6,
+                    delay: GLOW_DELAY,
+                    ease: [0.16, 1, 0.3, 1],
+                    times: [0, 0.52, 0.88, 1],
+                }}
+                className="pointer-events-none absolute -inset-[20%] z-[19]"
+                style={{
+                    background: `
+                        radial-gradient(circle at center,
+                            rgba(255,255,235,1) 0%,
+                            rgba(255,248,190,0.95) 20%,
+                            rgba(255,225,170,0.68) 42%,
+                            rgba(255,214,150,0.26) 62%,
+                            transparent 82%
+                        )
+                    `,
+                    filter: 'blur(3px)',
+                    mixBlendMode: 'screen',
+                }}
+            />
+
+            {/* Soft warm wash - reduced stay time */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{
+                    opacity: [0, 0.32, 0],
+                }}
+                transition={{
+                    duration: 1.4,
+                    delay: GLOW_DELAY + 1.6,
+                    ease: 'easeOut',
+                    times: [0, 0.35, 1],
+                }}
+                className="pointer-events-none absolute inset-0 z-[18]"
+                style={{
+                    background:
+                        'radial-gradient(circle at center, rgba(255,245,210,0.58) 0%, rgba(255,231,185,0.25) 48%, transparent 82%)',
+                    mixBlendMode: 'screen',
+                }}
+            />
+
+            {/* Center magical light - shorter fade, no long hold */}
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    scaleX: 0.06,
+                    scaleY: 0.22,
+                }}
+                animate={{
+                    opacity: [0, 0.95, 0.38, 0],
+                    scaleX: [0.06, 0.95, 2.4, 3.7],
+                    scaleY: [0.22, 1, 1.2, 1.32],
+                }}
+                transition={{
+                    duration: 2.45,
+                    delay: GLOW_DELAY + 0.15,
+                    ease: 'easeOut',
+                    times: [0, 0.38, 0.74, 1],
+                }}
+                className="pointer-events-none absolute left-1/2 top-1/2 z-[19] h-[130vh] w-[38vw] -translate-x-1/2 -translate-y-1/2"
+                style={{
+                    background:
+                        'linear-gradient(90deg, transparent 0%, rgba(255,253,220,0.9) 45%, rgba(255,253,220,0.9) 55%, transparent 100%)',
+                    filter: 'blur(30px)',
+                    mixBlendMode: 'screen',
+                }}
+            />
+        </>
+    );
+}
 export default function HeroSection() {
     return (
         <>
@@ -59,7 +152,7 @@ export default function HeroSection() {
     `,
                     }}
                 />
-
+                <DoorOpeningGlow />
                 {/* ── Main section (scrollable content area) ────────────────── */}
                 <section
                     className="relative z-10 flex flex-col items-center justify-center px-2 py-7"
@@ -140,7 +233,7 @@ export default function HeroSection() {
                         >
                             Tejaswi
                         </motion.h1>
-                        <motion.p {...fadeUp(0.65)} className="font-body text-xs tracking-wide font-bold text-amber-950 uppercase mb-1.5 whitespace-nowrap">
+                        <motion.p {...fadeUp(0.65)} className="font-body text-[11px] tracking-wide font-bold text-amber-950 uppercase mb-1.5 whitespace-nowrap">
                             Grand D/O Late. Jatan Devi &amp; Shri Jagat SinghJi Kothari
                         </motion.p>
                         <motion.p {...fadeUp(0.65)} className="font-body text-[10px] tracking-widest font-bold text-amber-950 uppercase mb-1.5">
