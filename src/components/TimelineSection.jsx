@@ -15,7 +15,7 @@ const itemVariants = {
 
 const events = [
     { time: "11:30 AM", title: "Carnival X Haldi", side: "right", day: "3rd July" },
-    { time: "3:00 – 5:00 PM", title: "Marya Royalty", side: "left" },
+    { time: "3:00 – 5:00 PM", title: "Mayra Royalty", side: "left" },
     { time: "7:00 PM Onwards", title: "Sangeet", side: "right" },
     { time: "7:00 – 7:48 AM", title: "Samayik", side: "left", day: "4th July" },
     { time: "12:30 PM", title: "Barat Swagat", side: "right" },
